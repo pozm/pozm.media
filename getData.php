@@ -8,13 +8,12 @@
 
     $exists = glob('./'. $sent . '.*');
 
-    $whiteList = ['.txt','.lua','.js'];
+    $whiteList = ['JSON','json'];
 
     if ($exists && in_array( substr($exists[0], strrpos($exists[0],'.')),$whiteList) ) {
 
-        //echo $exists[0]
-        readfile($exists[0]);
+        echo file_get_contents($exists[0]);
 
-    }
+    } else echo 'Bad request';
 
 ?>
