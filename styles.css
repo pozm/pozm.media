@@ -16,6 +16,24 @@
     display: none;
 }
 
+.MAIN {
+
+    align-items: center;
+    justify-content: initial;
+    position: relative; 
+    height: min-content;
+
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
 /* Hide scrollbar for IE, Edge and Firefox */
 .NoScrollBar {
 -ms-overflow-style: none;  /* IE and Edge */
@@ -30,3 +48,23 @@ scrollbar-width: none;  /* Firefox */
     color: rgba(255, 255, 255, 0.555);
 
 }
+
+.bg {
+    position: absolute;
+    width: 100%;
+    /* The image used */
+    background-image: url("backDrop.png");
+  
+    /* Full height */
+    height: 100%;
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+
+    filter: blur(2px);
+
+    z-index: 0;
+  }
