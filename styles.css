@@ -42,6 +42,16 @@
 scrollbar-width: none;  /* Firefox */
 }
 
+.fitSizes {
+
+    align-content: center; 
+    display: flex; 
+    justify-content: center;
+    min-width: fit-content;
+
+}
+
+
 .back {
 
     position: absolute;
