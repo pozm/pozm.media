@@ -8,8 +8,8 @@ const {mysqlPassWord} = require('./keys')
 
 
 const limiter = rateLimit({
-    windowMs: 60e3, // 15 minutes
-    max: 10 // limit each IP to 100 requests per windowMs
+    windowMs: 60e3, 
+    max: 10 
 });
 
 
