@@ -60,12 +60,11 @@ scrollbar-width: none;  /* Firefox */
     color: rgba(255, 255, 255, 0.555);
 
 }
-
 .bg {
     position: absolute;
     width: 100%;
     /* The image used */
-    background-image: url("backDrop.png");
+    background-image: url("Images/backDrop.png");
   
     /* Full height */
     height: 100%;
@@ -80,3 +79,21 @@ scrollbar-width: none;  /* Firefox */
 
     z-index: 0;
   }
+
+
+ol {
+    list-style-type:decimal;
+    margin-left:50px;
+    list-style: decimal inside none;
+}
+.alt {
+    position:relative;
+}
+.alt:before {
+    position:absolute;
+    display: inline-block;
+    content:"";
+    left: -30px;
+    height: 100%;
+    width: 30px;
+}

@@ -1,0 +1,38 @@
+<html>
+
+    <link rel="stylesheet" type="text/css" href="../bulma.css">
+    <link rel="stylesheet" type="text/css" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+    <meta property="og:site_name" content="Pozm.Media">
+    <meta property="og:url" content="https://Pozm.media">
+    <meta property="og:title" content="Pozm">
+    <meta property="og:description" content="The global log of is gay.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#418dc0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
+
+
+    <body style="background-color: #27292c; height: auto;">
+        
+        <h1 class="Title is-1" style="margin-left: 20px; top:50px; color: rgb(252, 252, 252);">The global is gay log</h1>
+        <h2 class="Subtitle is-3" id="change" style="margin-left: 20px; color: rgb(182, 182, 182);">all of the is gays.</h2>
+        <br>
+        <ol style="margin-left: 20px; color: rgb(241, 241, 241);" id="list">
+
+            <% logs.forEach((log) => { %>
+                <li class="title is-5 alt" style="color: rgb(241, 241, 241);" id="t"><span><%= log.at.toLocaleString('en-GB')%> (gmt) - <%= log.entered %></span> <%- log.passed ? '<span style = "color:#00ff00"> Passed </span>' : log.passed == false ? '<span style = "color:#ff0000"> failed </span>' : '<span style="color: rgb(0, 140, 255);">Unknown</span>'  %></li>
+            <%})%>
+        </ol>
+
+        <br>
+        <br>
+    </body>
+
+</html>
+
