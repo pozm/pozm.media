@@ -97,7 +97,7 @@ app.get('/IsGay', (req,res) => {
         send = false;
     } 
     if (send) res.render('TemplateIsGay', {user: user, reason : reason})
-    console.log(req.headers)
+    //console.log(req.headers)
     con.query('create database if not exists IsGayGlobalLogs')
     con.query('use IsGayGlobalLogs')
     con.query('create table if not exists log (id int primary key auto_increment,  entered  text, at timestamp default current_timestamp, passed bool)')
