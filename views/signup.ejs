@@ -1,0 +1,129 @@
+<html>
+
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="hi.css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+        <meta property="og:site_name" content="Pozm.Media">
+        <meta property="og:url" content="https://Pozm.media">
+        <meta property="og:title" content="Pozm">
+        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta property="og:type" content="website">
+        <meta name="theme-color" content="#418dc0">
+        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="jqf.js"></script> 
+    </head>
+
+
+
+    <body class="NoScrollBar" style="background-color: rgb(40, 44, 47);">
+
+
+        <!-- 
+            Website by  
+                Pozm#4351 ~ 690944032355909662
+                Pozm#6946 ~ 288062966803333120
+        -->
+        <div class="bg"></div>
+
+        <div class = 'topBar'>
+
+            <a href='/'>home</a>
+            <a href='/login'>login</a>
+
+        </div>
+
+
+        <div class = 'box welcomingBox loginBox' style="margin-bottom: 0px;">
+
+
+            <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Sign up now!</h1>
+            <div style="margin-top: 20px;">
+                <form action="/api/CreateAccount" id ='mf' method="POST" style="position: relative; display: grid;">
+                
+                    <input type="email" id='e' class="tb no-outline sutb" name="email" placeholder="Email">
+                    <input type="text" id='un' class="tb no-outline sutb" name="username" placeholder="Username">
+                    <input type="password" id='pw' class="tb no-outline sutb" name="password" placeholder="Password">
+                    <button class="g-recaptcha button" 
+                        data-sitekey="6Lcd1bUZAAAAAJ3tKGWNkuNcu5DePcRm9460MN-R"
+                        data-action='submit'
+                        data-callback='onButton'
+                        
+                    >Submit</button>
+                    <!-- <input type="button" id='sub' class="button" value="Okay!"> -->
+
+
+                </form>
+                <p style="width: inherit;position: relative; text-align: center;"><a href="/login" style="position: relative;">Already have an account? well sign in now!</a></p>
+                <p style="width: inherit;position: relative; text-align: center; font-size: 12px;">
+                    This site is protected by reCAPTCHA and the Google
+                    <a href="https://policies.google.com/privacy">Privacy Policy</a> and
+                    <a href="https://policies.google.com/terms">Terms of Service</a> apply.
+                </p>    
+                <p id='message' style="color: rgb(228, 228, 228); text-align: center;"></p>
+            </div>
+
+        </div>
+
+        <% if (signedInto)  {%>
+
+            <%- '<script>window.location.replace(\'/\')</script>' -%>
+
+        <%}%>
+
+
+    </body>
+
+        <script>
+
+            let sub=document.getElementById('sub')
+            let m =document.getElementById('message')
+
+            function onButton(token) {
+
+                let e  =document.getElementById('e')
+                let un =document.getElementById('un')
+                let pw =document.getElementById('pw')
+
+                let data ={
+                    'email':e.value,
+                    'username':un.value,
+                    'password':pw.value
+                }
+                console.log(data)
+
+
+                $('#mf').ajaxSubmit({
+                    error: function(crap,res) {
+                        console.log(crap,res)
+                        let data = JSON.parse(crap.responseText)
+                        console.log(data)
+                        m.innerText = `${data.error? 'Error: '+ data.message : 'Successful'}`
+                    },
+                    success: function(resb) {
+                        console.log(resb)
+                        let data;
+                        try {
+                            data = JSON.parse(resb)
+                        }catch(e) {data = {}}
+                        m.innerText = `${data.error? 'Error: '+ data.message : 'Successful'}`
+                        if (! data.error) setTimeout(()=>window.location.replace('/'))
+                    }
+                })
+            }
+
+            //sub.addEventListener('click',onButton)
+
+        </script>
+
+</html>

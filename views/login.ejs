@@ -1,0 +1,113 @@
+<html>
+
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="hi.css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+        <meta property="og:site_name" content="Pozm.Media">
+        <meta property="og:url" content="https://Pozm.media">
+        <meta property="og:title" content="Pozm">
+        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta property="og:type" content="website">
+        <meta name="theme-color" content="#418dc0">
+        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+
+
+    <body class="NoScrollBar" style="background-color: rgb(40, 44, 47);">
+
+
+        <!-- 
+            Website by  
+                Pozm#4351 ~ 690944032355909662
+                Pozm#6946 ~ 288062966803333120
+        -->
+        <div class="bg"></div>
+
+
+        <div class = 'topBar'>
+
+            <a href='/'>home</a>
+            <a href='/login'>login</a>
+
+        </div>
+
+
+        <div class = 'box welcomingBox loginBox'>
+
+
+            <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Sign in</h1>
+            <div style="margin-top: 20px;">
+                <form action="" method="POST" style="position: relative; display: grid;">
+                
+                    <input type="email" id='un' class="tb no-outline sutb" name="username" placeholder="Username or Email">
+                    <input type="password" id='pw' class="tb no-outline sutb" name="password" placeholder="Password">
+                    <input type="button" id='sub' class="button" value="Okay!">
+
+
+                </form>
+                <a href="/signup">Don't have an account? Make one now!</a>
+                <p id='message' style="color: rgb(228, 228, 228); text-align: center;"></p>
+            </div>
+
+        </div>
+
+        <% if (signedInto)  {%>
+
+            <%- '<script>window.location.replace(\'/\')</script>' -%>
+
+        <%}%>
+
+
+        <script>
+            let sub=document.getElementById('sub')
+            let m =document.getElementById('message')
+
+            sub.addEventListener('click', () =>{
+
+                let un =document.getElementById('un')
+                let pw =document.getElementById('pw')
+
+                let data ={
+                    'username':un.value,
+                    'password':pw.value
+                }
+                console.log(data)
+                $.ajax({
+                    url:'/api/LogintoAccount',
+                    data:data, 
+                    success:(res,t,r) => {
+
+                        let data = JSON.parse(res)
+                        console.log(data)
+                        console.log(r)
+                        m.innerText = `${data.error? 'Error: '+ data.message : 'Successful'}`
+                        if (! data.error) setTimeout(()=>window.location.replace('/'))
+                    },
+                    method:'post',
+                    error:(crap,res) => {
+
+                        console.log(crap,res)
+                        let data = JSON.parse(crap.responseText)
+                        console.log(data)
+                        m.innerText = `${data.error? 'Error: '+ data.message : 'Successful'}`
+                    }
+                })
+            })
+
+        </script>
+
+    </body>
+
+
+</html>

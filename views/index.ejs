@@ -1,0 +1,127 @@
+<html>
+
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="hi.css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+        <meta property="og:site_name" content="Pozm.Media">
+        <meta property="og:url" content="https://Pozm.media">
+        <meta property="og:title" content="Pozm">
+        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta property="og:type" content="website">
+        <meta name="theme-color" content="#418dc0">
+        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
+
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/simplebar@latest/dist/simplebar.css"
+        />
+        <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+
+    </head>
+    <body style="background-color: rgb(40, 44, 47);" data-simplebar>
+
+
+        <!-- 
+            Website by  
+                Pozm#4351 ~ 690944032355909662
+                Pozm#6946 ~ 288062966803333120
+        -->
+        <div class="bg"></div>
+
+        
+        <!--     <div class="topBar"></div> -->
+        
+        <div class="bounder">
+            <header>
+                <div class = 'topBar'>
+    
+                    <a href='/'>home</a>
+                    <%- data ? 
+    
+    
+                        `<div class="dropdown" style = "float:right;">
+                            <button class="dropbtn">Signed into <b>${data.username}</b></button>
+                            <div class="dropdown-content">
+                                ${data.powerId >= 5? '<a href="/admin">Admin panel</a>' : ''}
+                                ${data.powerId >= 2? '<a href="/SSG">Synapse support</a>' : ''}
+                                <a href="/api/logout">Sign out</a>
+                            </div>
+                        </div>` : 
+    
+    
+                        "<a href='/login'>login</a>" 
+                    
+                    
+                    %>
+    
+                </div>
+    
+            </header>
+            <div class = 'welcomingBox'>
+
+
+                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center; position: relative">Welcome</h1>
+                <% if (!data) {%>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;">You can <a href='/login'>login</a> or <a href="/signup">signup</a> </h2>
+                <% } else {%>
+                    
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;"> <%= data.username  %>!  </h2>
+
+                <% } %>
+
+            </div>
+
+
+            <div class="main">
+
+                <h1 class="title is-1" style="color: rgb(204, 204, 204); text-align: center;">So what is this website?</h1>
+
+                <blockquote style="text-align: center; color: rgb(255, 255, 255); font-size: large; margin-bottom: 50px;word-wrap:break-word;">
+
+                    This website is used for managing my services. which require authentication (which can be done by <a href="/signup"> creating an account </a>) <br>
+
+
+
+
+                </blockquote>
+                
+                <h1 class="title is-1" style="color: rgb(204, 204, 204); text-align: center;">Who are you?</h1>
+
+                <blockquote style="text-align: center; color: rgb(255, 255, 255); font-size: large; margin-bottom: 50px;word-wrap:break-word;">
+
+                    I go by as "pozm" and i'm a programmer.<br>
+                    I get entertainment out of programming and find it fun as a primary thing i do.<br>
+                    I mainly operate with backend javascript (nodejs) or lua. But i also know other languages<br> 
+                    like python, c# and typescript. I plan to learn c++ in the near future.<br>
+                    <br>
+                    I have knowledge of creating "games" using main stream game engines such as "unity" or "unreal" and have made projects within them, <br>
+                    which use assets (such as 3d model's and animations) within them which have given me expirence with creating models etc, although im not competent in those areas.<br>
+
+
+                </blockquote>
+                
+                <h1 class="title is-1" style="color: rgb(204, 204, 204); text-align: center;">Who is bork?</h1>
+                
+                <blockquote style="text-align: center; color: rgb(255, 255, 255); font-size: large;">
+                    
+                    basically some skid.
+                    
+                </blockquote>
+                
+                <br>
+                <br>
+                <br>
+
+            </div>
+        </div>
+
+    </body>
+
+</html>

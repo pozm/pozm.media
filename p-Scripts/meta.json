@@ -1,0 +1,14 @@
+{
+
+    "Synapse.Obfuscated" : {
+
+        "power" : 2,
+        "url" : "Synapse.Obfuscated.js"
+
+    },
+    "KeyStrokes" : {
+        "power" : 0,
+        "url" : "KeyStrokes.lua"
+    }
+
+}

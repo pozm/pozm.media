@@ -1,0 +1,174 @@
+<html>
+
+    <head>
+
+        <link rel="stylesheet" type="text/css" href="hi.css">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+        <meta property="og:site_name" content="Pozm.Media">
+        <meta property="og:url" content="https://Pozm.media">
+        <meta property="og:title" content="Pozm">
+        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta property="og:type" content="website">
+        <meta name="theme-color" content="#418dc0">
+        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
+        <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
+
+    </head>
+    <body data-simplebar style="background-color: rgb(40, 44, 47);">
+
+
+        <!-- 
+            Website by  
+                Pozm#4351 ~ 690944032355909662
+                Pozm#6946 ~ 288062966803333120
+        -->
+
+        <div class="box" id="pr1" style="top:10%;width: 100%;max-width:300;height:300px;z-index: 2;margin-top: 10%;margin-left: auto; display: none; background-color: rgb(56, 56, 56); position: absolute;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        text-align: center;">
+            <p>Change power</p>
+            <form style="margin-top: 30%;text-align: center;">
+
+                <input type="number" name="newid" id="cid" max="5" min="0"  style="margin: auto;position: relative;"><br><br>
+
+                
+            </form>
+            <button class="button center" onclick="Pc()"> submit </button>
+            
+        </div>
+        <div id="pr2" onclick="ignore()" style="width:100%;height: 100%;background-color: #0000008c;position: absolute;z-index: 1; display: none;"></div>
+
+
+
+
+        
+        
+        <!--     <div class="topBar"></div> -->
+        
+        <div class="bounder">
+            <header>
+                <div class = 'topBar'>
+                    <a href='/'>home</a>    
+                    <%- data ? 
+    
+    
+                        `<div class="dropdown" style = "float:right;">
+                            <button class="dropbtn">Signed into <b>${data.username}</b></button>
+                            <div class="dropdown-content">
+                                ${data.powerId >= 5? '<a href="/admin">Admin panel</a>' : ''}
+                                ${data.powerId >= 2? '<a href="/SSG">Synapse support</a>' : ''}
+                                <a href="/api/logout">Sign out</a>
+                            </div>
+                        </div>` : 
+    
+    
+                        "<a href='/login'>login</a>" 
+                    
+                    
+                    %>
+    
+                </div>
+            </header>
+            <div class="welcomingBox">
+
+                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Hello <%= data.username  %></h1>
+                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> Welcome to the admin panel!  </h2>
+                <br>
+                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Current users in db</h1>
+                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> <%= reg.length %>  </h2>
+
+            </div>
+
+
+            <div class="main">
+                <p style="text-align: center; position: relative;">Current accounts</p>
+                <!-- <div class="box" style="top:100; overflow: auto; position: relative; width: auto; height: 50%; max-width: 1000px; margin: auto;background-color: #2f2f2f;color: #c3c3c3;;"> -->
+                    <div class="box" style="overflow: auto;height: 80%; background-color: rgb(56, 56, 56);">
+                        <% for (let r of reg) { %>
+                            <p id = "<%=r.id%>" style="text-align: center; position: relative; font-size: large;">
+                            <% for (let [key,v] of Object.entries(r)) {%>
+                                <%- key != 'password' ?  `${key}: ${key == "registeredAt"? v.toLocaleString('en-gb') : key == "email"? `<span class = "email">${v}</span>` : v} • ` : '' %>
+                            <%} %>
+                            <a id="pc_<%= r.id %>_<%= r.powerId %>" onclick="PowerChange(this.id)">Change powerId</a>
+                            <% if (data.powerId > r.powerId) { %><a id="d_<%= r.id %>" onclick="Delete(this.id)" style="color: red;">Delete account</a> <%}%>
+                            </p>
+                            <br>
+                        <%}; %>
+                    </div>
+
+                <!-- </div> -->
+
+                <script>
+
+                    let currentId;
+
+                    function ignore() {
+
+                        document.getElementById('pr1').style.display = 'none'
+                        document.getElementById('pr2').style.display = 'none'
+
+                    }
+
+                    function Pc() {
+
+
+                        $.ajax({
+
+                            method:'post',
+                            url:'/admin/UpdatePower',
+                            data: {id : currentId, power: document.getElementById('cid').value},
+                            success: ()=> {window.location.reload()},
+                            error: ()=>console.log()
+
+                        })
+
+
+                    }
+
+
+
+                    function PowerChange(e) {
+
+                        currentId = e.split('_')[1]
+                        console.log(e.split('_'))
+                        document.getElementById('pr1').style.display = ''
+                        document.getElementById('pr2').style.display = ''
+                        document.getElementById('cid').value = e.split('_')[2]
+                        
+                    }
+                    function Delete(e) {
+
+                        if (confirm(`Are you sure you want to delete id ${e.split('_')[1]}`)) {
+
+                            $.ajax({
+
+                                method:'delete',
+                                url:'/admin/AccountDelete',
+                                data: {id : e.split('_')[1]},
+                                success: ()=> {window.location.reload()}
+                                
+                            })
+
+                        }
+
+                    }
+
+                </script>
+
+            </div>
+        </div>
+
+    </body>
+
+</html>
