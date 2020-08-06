@@ -64,6 +64,25 @@ app.use(session({
 }))
 
 const scriptsMetaData = JSON.parse(fs.readFileSync('p-Scripts/meta.json'))
+const SynapseFixes = JSON.parse(fs.readFileSync('Utility/SyanpseFixes.json'))
+
+
+const dataStructures = {
+
+    account:`CREATE TABLE if not exists \`account\` (
+        \`id\` int NOT NULL AUTO_INCREMENT,
+        \`username\` varchar(15) NOT NULL,
+        \`password\` text NOT NULL,
+        \`email\` text NOT NULL,
+        \`registeredAt\` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+        \`powerId\` int NOT NULL DEFAULT '0',
+        \`subscriptions\` json,
+        PRIMARY KEY (\`id\`)
+    )`,
+    IsGayLogging:`create table if not exists log (id int primary key auto_increment,  entered  text, at timestamp default current_timestamp, passed bool)`
+
+}
+
 
 
 async function getDataFromId (id) {
@@ -72,103 +91,102 @@ async function getDataFromId (id) {
         
         con.query('create database if not exists whitelist')
         con.query('use whitelist')
-        con.query(`create table if not exists \`whitelist\`.\`account\` (
+        con.query(dataStructures.account)
+        
+        con.query('select * from `whitelist`.`account` where id = ?',id, (err, res2) => {
             
-            \`id\` int primary key not null auto_increment,
-            \`username\` varchar(15) not null,
-            \`password\` text not null,
-            \`email\` text not null
-            
-            )
-            `)
-            
-            con.query('select * from `whitelist`.`account` where id = ?',id, (err, res2) => {
-                
-                if (err) throw err
-                if (0 in res2) return res( res2[0])
-                res(null)
-            })
-            
-            
+            if (err) throw err
+            if (0 in res2) return res( res2[0])
+            res(null)
         })
         
-    }
-    
-    
-    async function AsyncQuery() {
-        
-        return new Promise(resolve => {
             
-            func = (err,result)=>{
-                
-                if (err) throw err
-                resolve(result)
-                
-            }
-            con.query(arguments[0],arguments[1] ?? func, func)
+    })
+        
+}
+    
+    
+async function AsyncQuery() {
+    
+    return new Promise(resolve => {
+        
+        func = (err,result)=>{
             
-        })
+            if (err) throw err
+            resolve(result)
+            
+        }
+        con.query(arguments[0],arguments[1] ?? func, func)
         
+    })
+    
+}
+
+
+
+// front end
+
+
+app.get('/', async (req,res) => {
+    
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    
+    res.render('index',{data : data ? data : false})
+})
+
+app.get('/login', async (req,res) => {
+    
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    if (data) return res.redirect('/')
+    
+    res.render('login',{signedInto : data ? data.username : false})
+})
+app.get('/signup', async (req,res) => {
+    
+    let data = await getDataFromId(req.session.logedInto ?? '')
+
+    if (data) return res.redirect('/')
+    
+    res.render('signup',{signedInto : data ? data.username : false})
+})
+
+app.get('/admin', async (req,res) => {
+    
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    if (!data) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    if (data.powerId < 5) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    let tables = await AsyncQuery('select * from `whitelist`.`account`')
+    
+    res.render('admin',{data : data ? data : false, reg : tables})
+})
+app.get('/SSG', async (req,res) => {
+    
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    if (!data) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    if (data.powerId < 2) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    res.render('ssg',{data : data ? data : false, fixes : SynapseFixes.Fixes})
+})
+
+
+app.get('/getScript', async (req, res) => {
+
+    if (!req.query.script) {
+        res.status(400).send('Bad Request.')
+        return;
     }
-    
-    
-    
-    // front end
-    
-    
-    app.get('/', async (req,res) => {
-        
-        let data = await getDataFromId(req.session.logedInto ?? '')
-        
-        res.render('index',{data : data ? data : false})
-    })
-    
-    app.get('/login', async (req,res) => {
-        
-        let data = await getDataFromId(req.session.logedInto ?? '')
-        if (data) return res.redirect('/')
-        
-        res.render('login',{signedInto : data ? data.username : false})
-    })
-    app.get('/signup', async (req,res) => {
-        
-        let data = await getDataFromId(req.session.logedInto ?? '')
+    let scr = req.query.script
+    if (!scriptsMetaData[scr]) {
+        res.status(400).send('Bad Request.')
+        console.log('1')
+        return;
+    }
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    console.log(data,req.session.logedInto)
+    if (scriptsMetaData[scr].power > 0 && (! data) ) return res.sendStatus(401)
+    if (data.powerId < scriptsMetaData[scr].power) return res.sendStatus(401)
+    res.sendFile(path.join(__dirname,'p-Scripts/'+scriptsMetaData[scr].url))
 
-        if (data) return res.redirect('/')
-        
-        res.render('signup',{signedInto : data ? data.username : false})
-    })
-    
-    app.get('/admin', async (req,res) => {
-        
-        let data = await getDataFromId(req.session.logedInto ?? '')
-        if (!data) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
-        if (data.powerId < 5) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
-        let tables = await AsyncQuery('select * from `whitelist`.`account`')
-        
-        res.render('admin',{data : data ? data : false, reg : tables})
-    })
-    
-    
-    app.get('/getScript', async (req, res) => {
-
-        if (!req.query.script) {
-            res.status(400).send('Bad Request.')
-            return;
-        }
-        let scr = req.query.script
-        if (!scriptsMetaData[scr]) {
-            res.status(400).send('Bad Request.')
-            console.log('1')
-            return;
-        }
-        let data = await getDataFromId(req.session.logedInto ?? '')
-        console.log(data)
-        if (scriptsMetaData[scr].power > 0 && (! data) ) return res.sendStatus(401)
-        if (data.powerId < scriptsMetaData[scr].power) return res.sendStatus(401)
-        res.sendFile(path.join(__dirname,'p-Scripts/'+scriptsMetaData[scr].url))
-    
-    })
+})
     
     
     //api / backend
@@ -234,28 +252,14 @@ app.post('/api/LogintoAccount', (req,res) => {
     
     con.query('create database if not exists whitelist')
     con.query('use whitelist')
-    con.query(`CREATE TABLE if not exists \`account\` (
-        \`id\` int NOT NULL AUTO_INCREMENT,
-        \`username\` varchar(15) NOT NULL,
-        \`password\` text NOT NULL,
-        \`email\` text NOT NULL,
-        \`registeredAt\` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-        \`powerId\` int NOT NULL DEFAULT '0',
-        \`subscriptions\` json,
-        PRIMARY KEY (\`id\`)
-        )
-      
-    `)
+    con.query(dataStructures.account)
     hash = crypto.createHash('sha512')
         .update(password)
     let digested = hash.digest('hex')
     console.log(digested)
     con.query('select * from `whitelist`.`account` where password = ? and (username = ? or email = ?)', [digested, username ?? '', username ?? ''], (err,resi) => {
         if (err) throw err
-        console.log(resi)
         if (0 in resi) {
-
-            console.log(resi,digested)
 
             req.session.logedInto = resi[0].id
             res.send(JSON.stringify({error : false, message : 'Logged in'}))
@@ -291,18 +295,7 @@ app.post('/api/CreateAccount', async (req,res) => {
 
     con.query('create database if not exists whitelist')
     con.query('use whitelist')
-    con.query(`CREATE TABLE if not exists \`account\` (
-        \`id\` int NOT NULL AUTO_INCREMENT,
-        \`username\` varchar(15) NOT NULL,
-        \`password\` text NOT NULL,
-        \`email\` text NOT NULL,
-        \`registeredAt\` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-        \`powerId\` int NOT NULL DEFAULT '0',
-        \`subscriptions\` json,
-        PRIMARY KEY (\`id\`)
-        )
-      
-    `)
+    con.query(dataStructures.account)
     con.query('select * from `whitelist`.`account` where username = ? or email = ?', [username,email], (err , resu) => {
 
         if (err) throw err
@@ -360,11 +353,11 @@ app.get('/IsGay', (req,res) => {
     let user = req.query.user
     let reason = req.query.reason ?? 'He is gay.'
     if (!user) return res.render('makeIsGay')
-    try {user = decodeURI(user)} catch (e) {return res.send('fuck off u entered a bad url') }
+    try {user = decodeURI(user)} catch (e) {return res.render('makeIsGay') }
 
     let test = user.match(/\S/gi) ?? ['']
     let send = true;
-    if (user.match(/(pozm|p0zm|p()zm|nukebot)/gi) || user.match(/[^!-~ ]/gm) || test.join('') == 'pozm' || user.match(/(p.*?(o|0|()).*?z.*?m?)/gmi)) {
+    if (user.match(/(pozm|p0zm|p()zm|nukebot|brad|br@d)/gi) || user.match(/[^!-~ ]/gm) || test.join('') == 'pozm' || user.match(/(p.*?(o|0|()).*?z.*?m?)/gmi) || user.match(/(b.*?r.*?(a|@).*?d?)/gmi)) {
         res.sendStatus(403); 
         console.log(user, 'was just attempted'); 
         send = false;
@@ -373,7 +366,7 @@ app.get('/IsGay', (req,res) => {
     //console.log(req.headers)
     con.query('create database if not exists IsGayGlobalLogs')
     con.query('use IsGayGlobalLogs')
-    con.query('create table if not exists log (id int primary key auto_increment,  entered  text, at timestamp default current_timestamp, passed bool)')
+    con.query(dataStructures.IsGayLogging)
     try {con.query('insert into log (entered, passed) values (?,?)', [ encodeURIComponent( user ),send])} catch(e) {}
 
 })
@@ -382,11 +375,19 @@ app.get('/IsGay/Log', (req,res) => {
 
     con.query('create database if not exists IsGayGlobalLogs')
     con.query('use IsGayGlobalLogs')
+    con.query(dataStructures.IsGayLogging)
     con.query('select * from log', (err,resu)=>{
         if (err) throw err;
         //console.log(resu)
         res.render('IsGayLogs', {logs: resu})
     })
+
+})
+
+app.get('/cool', (req,res) => {
+
+    console.log(req.ips ?? req.ip)
+    res.send('hi')
 
 })
 
