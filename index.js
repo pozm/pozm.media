@@ -357,8 +357,8 @@ app.post('/api/CreateAccount', async (req,res) => {
     if (! username||!password||!email) return res.status(400).send(JSON.stringify({error:19,message:'Missing credentials'}))
 
     if (!email.match(/.{0,64}[@](\w{0,255}[.])\w{0,10}/)) return res.status(400).send(JSON.stringify({'error':3,message:'bad email'}))
-    if (username.match(/(.{30}|[^A-Za-z\d])/)) return res.status(400).send(JSON.stringify({'error':4,message:'bad username'}))
-    if (!password.match(/(.{32}|^[\x00-\x7F]+$)/)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid'}))
+    if (username.match(/(.{30,}|[^A-Za-z\d])/)) return res.status(400).send(JSON.stringify({'error':4,message:'bad username'}))
+    if (!password.match(/(.{32,}|^[\x00-\x7F]+$)/)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid'}))
     con.query('select * from `whitelist`.`account` where username = ? or email = ?', [username,email], async (err , resu) => {
 
         if (err) throw err
@@ -384,6 +384,7 @@ app.post('/api/CreateAccount', async (req,res) => {
 })
 
 //profiles
+/** @todo make profiles, will probably do in some date later. if i even decide to keep. */
 
 app.get('/user/:id', async (req,res)=>{
 
@@ -391,14 +392,22 @@ app.get('/user/:id', async (req,res)=>{
     if (!data) return res.status(404).sendFile(path.join(__dirname, 'html/errors/404.html'))
 })
 
-
-//meme shit
+// others
 
 app.get('/WebhookTools', (req,res)=>{
 
     res.render('WebhookM')
 
 })
+
+app.get('/contact', (req,res)=>{
+
+    res.render('contact')
+
+})
+
+//meme shit
+
 
 app.get('/name', (req,res)=>{
 
@@ -470,20 +479,6 @@ app.get('/IsGay', async (req,res) => {
     return res.render('makeIsGay',{data : data ? data : false})
 
 })
-
-app.get('/cool', (req,res) => {
-
-    // console.log(req.ips ?? req.ip)
-    res.send('hi')
-
-})
-
-app.get('/SX', (req,res)=>{
-
-    res.redirect('https://x.synapse.to')
-
-})
-
 //404 catching
 
 app.get('*', (req, res) => {

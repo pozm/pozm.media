@@ -10,7 +10,7 @@
                 <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Allows you to manage webhooks.</h2>
 
             </div>
-            <div class="main" style="flex-flow: wrap;">
+            <div class="main" style="flex-flow: row;">
 
                 <section class="container is-fullhd">
                     <div class="box" style="background-color:rgb(29, 29, 29)">
@@ -21,11 +21,11 @@
                             <div class="control">
                                 <input class="input" type="text" placeholder="Webhook URL" id = 'URL'>
                             </div>
-                            <div class="columns" id = 'extra' style="opacity: 0;display: none;transition:opacity 1s;">
+                            <div class="columns" id = 'extra' style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden;">
                                 <div class="column">
                                     <label class="label" style="color: rgb(202, 202, 202);">content</label>
                                     <div class="control">
-                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;" rows="4"></textarea>
+                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;transition:none" rows="4"></textarea>
 
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                             <input type="button" class="button is-link"value="Toggle extra" style="margin-top: 20px;" id='te'>
                                         </p>
                                     </div>
-                                    <div class="level-item" id="sendp" style="opacity: 0;display: none;transition:opacity 1s;">
+                                    <div class="level-item" id="sendp" style="max-height: 0%;opacity:0; transition: all 2s;">
                                         <p class="control">
                                             <input type="button" class="button is-primary"value="Send" style="margin-top: 20px;" id='send'>
                                         </p>
@@ -156,29 +156,18 @@
                                 })
                             })
                             let extra = false;
+                            let ttt = $('#sendp,#extra')
                             $('#te').click(e=>{
 
                                 if (!extra){
-
-                                    $('#sendp,#extra').css({display:'flex'})
-                                    setTimeout(()=>{
-                                        $('#sendp,#extra').css({opacity:1})
-                                    },1e1)
+                                    ttt.css({overflow:'hidden','max-height':'100%',opacity:1})
                                     extra = ! extra
                                 }else{
-
-                                    $('#sendp,#extra').css({opacity:0})
-                                    setTimeout(()=>{
-                                        $('#sendp,#extra').css({display:'none'})
-                                    },1e3)
+                                    ttt.css({overflow:'hidden','max-height':'0%',opacity:0})
                                     extra = ! extra
 
                                 }
-
-
-
                             })
-
 
                         </script>
 
