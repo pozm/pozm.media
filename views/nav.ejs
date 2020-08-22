@@ -1,0 +1,94 @@
+<% 
+
+    let viewable = [null,{name:'Is gay',url:'/IsGay'},{name:'Synapse Support',url:'/SSG'},null,{name:'Admin panel',url:'/admin'}]
+
+%> 
+<nav class="navbar is-dark is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="stuff">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="stuff" class="navbar-menu">
+      <div class="navbar-start">
+        <a class="navbar-item" href="/">
+          Home
+        </a>
+  
+        <a class="navbar-item" href="/info">
+          Information
+        </a>
+  
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+                More
+            </a>
+  
+                <div class="navbar-dropdown">
+                    <a class="navbar-item" href="/name">
+                        Name generator
+                    </a>
+                    <a class="navbar-item" href="/webhooktools">
+                        Webhook tools
+                    </a>
+                    <a class="navbar-item" href="/contact">
+                        Contact
+                    </a>
+                    <hr class="navbar-divider">
+                    <a class="navbar-item" href="contact#issue">
+                        Report an issue
+                    </a>
+                </div>
+            </div>
+        </div>
+  
+        <div class="navbar-end">
+            <% if (!locals.data) {%> 
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary" href="/signup">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light" href="/login">
+                            Log in
+                        </a>
+                    </div>
+                </div>
+            <% } else { %> 
+
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">
+                        Signed in as <%= data.username %> 
+                    </a>
+                    <div class="navbar-dropdown"  style="transition: all 500ms cubic-bezier(0.18, 0.89, 0.32, 1.28);">
+                        <% for (let i=data.powerId;i>0;i--) { %>
+                            <% if (viewable[i]) { %>
+                                <% let obj = viewable[i] %>
+                                <a class="navbar-item" href="<%- obj.url %> ">
+                                    <%= obj.name %>
+                                </a> 
+                            <% } %> 
+                        <% } %> 
+                        <hr class="navbar-divider">
+                        <a class="navbar-item" href="/api/logout">
+                            Signout
+                        </a>
+                    </div>
+                </div>
+            <% } %> 
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $(".navbar-burger").click(function() {
+
+                $(".navbar-burger").toggleClass("is-active");
+                $(".navbar-menu").toggleClass("is-active");
+
+            });
+        });
+    </script>
+</nav>

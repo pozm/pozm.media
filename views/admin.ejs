@@ -1,28 +1,7 @@
 <html>
 
-    <head>
-
-        <link rel="stylesheet" type="text/css" href="hi.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-        <meta property="og:site_name" content="Pozm.Media">
-        <meta property="og:url" content="https://Pozm.media">
-        <meta property="og:title" content="Pozm">
-        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
-        <meta property="og:type" content="website">
-        <meta name="theme-color" content="#418dc0">
-        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
-        <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
-
-    </head>
-    <body data-simplebar style="background-color: rgb(40, 44, 47);">
+    <%- include("head.ejs") -%> 
+    <body style="background-color: rgb(40, 44, 47);">
 
 
         <!-- 
@@ -31,55 +10,35 @@
                 Pozm#6946 ~ 288062966803333120
         -->
 
-        <div class="box" id="pr1" style="top:10%;width: 100%;max-width:300;height:300px;z-index: 2;margin-top: 10%;margin-left: auto; display: none; background-color: rgb(56, 56, 56); position: absolute;
-        margin-left: auto;
-        margin-right: auto;
-        left: 0;
-        right: 0;
-        text-align: center;">
-            <p>Change power</p>
-            <form style="margin-top: 30%;text-align: center;">
+        <div class="box welcomingBox loginBox" id="pr1" style="top:10%;width: 100%;max-width:300;height:auto;z-index: 2;margin-left: auto; display: none; background-color: rgb(56, 56, 56); position: fixed;left:0px;right: 0px;padding:0 0;">
+            <div class="field">
+                <p style="text-align: center;">Change power</p>
+                <form style="margin-top: 30%;text-align: center;">
 
-                <input type="number" name="newid" id="cid" max="5" min="0"  style="margin: auto;position: relative;"><br><br>
-
-                
-            </form>
-            <button class="button center" onclick="Pc()"> submit </button>
-            
+                    <p id='PC_Username'></p>
+                    <span class="select" id ='cid'>
+                        <select>
+                            <option value=0>none</option>
+                            <option value=1>Cool</option>
+                            <option value=2>synapse staff</option>
+                            <option value=5>admin</option>
+                        </select>
+                    </span><br><br>
+                    <input type="button"class="button" onclick="Pc()"value="submit"></button>
+                    <p class="help" id='pchelp'></p>
+                    
+                </form>
+            </div>
         </div>
-        <div id="pr2" onclick="ignore()" style="width:100%;height: 100%;background-color: #0000008c;position: absolute;z-index: 1; display: none;"></div>
+        <div id="pr2" onclick="ignore()" style="width:100%;height: 100%;background-color: #0000008c;position: fixed;z-index: 1; display: none;"></div>
 
-
-
-
-        
         
         <!--     <div class="topBar"></div> -->
         
         <div class="bounder">
-            <header>
-                <div class = 'topBar'>
-                    <a href='/'>home</a>    
-                    <%- data ? 
-    
-    
-                        `<div class="dropdown" style = "float:right;">
-                            <button class="dropbtn">Signed into <b>${data.username}</b></button>
-                            <div class="dropdown-content">
-                                ${data.powerId >= 5? '<a href="/admin">Admin panel</a>' : ''}
-                                ${data.powerId >= 2? '<a href="/SSG">Synapse support</a>' : ''}
-                                <a href="/api/logout">Sign out</a>
-                            </div>
-                        </div>` : 
-    
-    
-                        "<a href='/login'>login</a>" 
-                    
-                    
-                    %>
-    
-                </div>
-            </header>
+
+            <%- include("nav.ejs") -%> 
+            
             <div class="welcomingBox">
 
                 <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Hello <%= data.username  %></h1>
@@ -91,82 +50,168 @@
             </div>
 
 
-            <div class="main">
-                <p style="text-align: center; position: relative;">Current accounts</p>
-                <!-- <div class="box" style="top:100; overflow: auto; position: relative; width: auto; height: 50%; max-width: 1000px; margin: auto;background-color: #2f2f2f;color: #c3c3c3;;"> -->
-                    <div class="box" style="overflow: auto;height: 80%; background-color: rgb(56, 56, 56);">
-                        <% for (let r of reg) { %>
-                            <p id = "<%=r.id%>" style="text-align: center; position: relative; font-size: large;">
-                            <% for (let [key,v] of Object.entries(r)) {%>
-                                <%- key != 'password' ?  `${key}: ${key == "registeredAt"? v.toLocaleString('en-gb') : key == "email"? `<span class = "email">${v}</span>` : v} • ` : '' %>
-                            <%} %>
-                            <a id="pc_<%= r.id %>_<%= r.powerId %>" onclick="PowerChange(this.id)">Change powerId</a>
-                            <% if (data.powerId > r.powerId) { %><a id="d_<%= r.id %>" onclick="Delete(this.id)" style="color: red;">Delete account</a> <%}%>
+            <div class="main" style="flex-flow: wrap; /* width:auto; */">
+
+                <div class="Left-Box">
+
+                    <div class="Left-BoxC" style="margin-left: 0px; width: 400px;padding: 1.5rem;height: 60vh;overflow-y: auto;">
+
+                        <aside class="menu">
+
+                            <p class="menu-label">
+                                Users
                             </p>
-                            <br>
-                        <%}; %>
+                            <ul class="menu-list" >
+                                <li><a href="#Users" class="is-active">Current users in DB</a>
+                                
+                                    <ul id='m_USERS'>
+                                        <% for (let useri of Object.keys(reg)) { %>
+
+                                            <% let user = reg[useri] %> 
+                                            <li><a href="#<%= user.username %>"><%= user.username %> </a></li>
+                                        <% } %> 
+                                    </ul>
+                                
+                                </li>
+                              </ul>
+
+                        </aside>
+                            
+
                     </div>
 
-                <!-- </div> -->
+                </div>
+                
 
-                <script>
+                <div class="Right-Box">
 
-                    let currentId;
+                    <h2 id='Users' class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Users</h2>
+                    <hr class="thick">
 
-                    function ignore() {
+                    <% for (let useri of Object.keys(reg)) { %>
 
-                        document.getElementById('pr1').style.display = 'none'
-                        document.getElementById('pr2').style.display = 'none'
+                        <% let user = reg[useri] %> 
+                        <div class="box odd-even" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem" id="<%- user.username %>">
 
-                    }
+                            <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= user.username %> </h1>
+                            <h2 class="subtitle is-5" style="color :rgb(202, 202, 202)">ID :<%= user.id %> </h1>
+                            <hr class="light">
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Email</h1>
+                            <p class = "email"><%= user.email %> </p>
+                            <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">Registered at </h1>
+                            <p><%= new Date(user.registeredAt).toString(undefined,{hour12:true}) %> </p>
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Power</h1>
+                            <p style="word-break: break-all;"><%= user.powerId %> </p>
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Registered IP</h1>
+                            <p style="word-break: break-all;" class="email"><%= user.registerIp %> </p>
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Subscriptions</h1>
+                            <p style="word-break: break-all;"><%= user.subscriptions %> </p>
+                            <% if (data.powerId > user.powerId) { %> 
+                                <button class="button is-danger" onclick="Delete(this.id)" id="d_<%= user.id %>">Delete account</button>
+                                <button class="button is-primary"onclick="PowerChange(this.id)"id="pc_<%= user.id %>">Change Power</button>
+                            <% } %> 
+                        </div>
 
-                    function Pc() {
+                    <% } %> 
+
+                </div>
+
+            </div>
+            <script>
+
+                //good shit - buttons
+                let currentId;
+
+                function ignore() { // disregard
+
+                    document.getElementById('pr1').style.display = 'none'
+                    document.getElementById('pr2').style.display = 'none'
+
+                }
 
 
-                        $.ajax({
-
-                            method:'post',
-                            url:'/admin/UpdatePower',
-                            data: {id : currentId, power: document.getElementById('cid').value},
-                            success: ()=> {window.location.reload()},
-                            error: ()=>console.log()
-
-                        })
+                function Pc() { // power change
 
 
-                    }
+                    $.ajax({
 
+                        method:'patch',
+                        url:'/admin/UpdatePower',
+                        data: {id : currentId, power: parseInt($('#cid').find(':selected').val())},
+                        success: (s)=> {window.location.reload();console.log(s)},
+                        error: (e)=>{
 
-
-                    function PowerChange(e) {
-
-                        currentId = e.split('_')[1]
-                        console.log(e.split('_'))
-                        document.getElementById('pr1').style.display = ''
-                        document.getElementById('pr2').style.display = ''
-                        document.getElementById('cid').value = e.split('_')[2]
-                        
-                    }
-                    function Delete(e) {
-
-                        if (confirm(`Are you sure you want to delete id ${e.split('_')[1]}`)) {
-
-                            $.ajax({
-
-                                method:'delete',
-                                url:'/admin/AccountDelete',
-                                data: {id : e.split('_')[1]},
-                                success: ()=> {window.location.reload()}
-                                
-                            })
+                            $('#pchelp').text(e.statusText)
 
                         }
 
+                    })
+
+
+                }
+                function PowerChange(e) { // prompt
+
+
+                    let element = $(`#${e}`)
+                    currentId = e.split('_')[1]
+                    let currentPower = element.parent().children()[8].textContent.trim()
+                    $('#PC_Username').text('User:'+element.parent().children()[0].textContent)
+                    document.getElementById('pr1').style.display = ''
+                    document.getElementById('pr2').style.display = ''
+                    $('#pchelp').text()
+                    $('#cid').find(`[value="${currentPower}"]`).prop('selected',true)
+
+                }
+                function Delete(e) { // delete account
+
+                    console.log(e)
+
+                    let element = $(`#${e}`)
+                    if (confirm(`Are you sure you want to delete id ${e.split('_')[1]} (${element.parent().children()[0].textContent})`)) {
+
+                        $.ajax({
+
+                            method:'delete',
+                            url:'/admin/AccountDelete',
+                            data: {id : e.split('_')[1]},
+                            success: ()=> {window.location.reload()}
+                            
+                        })
+
                     }
 
-                </script>
+                }
 
-            </div>
+                // scrolling shit
+
+                function checkVisible(elm) {
+                    var rect = elm.getBoundingClientRect();
+                    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+                    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+                }
+
+                let things = ['Users']
+
+                let hrf= window.location.href
+                let shrf = hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0]
+
+                $('#Currently-Viewing').text(shrf)
+
+                $('body').scroll(()=>{
+
+
+                    for (let v of things) {
+                        let hrf= window.location.href
+                        let shrf = hrf.slice(hrf.lastIndexOf('/'))
+                        console.log(hrf.lastIndexOf('#')+1)
+                        $('#Currently-Viewing').text(hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0])
+                        if (checkVisible($(`#${v}`).get()[0]) && shrf != '/SSG#'+v) window.location.href= '#'+v
+
+                    }
+
+                })
+
+            </script>
         </div>
 
     </body>

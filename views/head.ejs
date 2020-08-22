@@ -1,0 +1,31 @@
+<head>
+
+    <link rel="stylesheet" type="text/css" href="https://jenil.github.io/bulmaswatch/darkly/bulmaswatch.min.css">
+    <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <meta property="og:site_name" content="Pozm.Media">
+    <meta property="og:url" content="https://Pozm.media">
+    <meta property="og:title" content="Pozm">
+    <% console.log(locals.emb) %> 
+    <% if (!locals.emb) {%> 
+        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta name="theme-color" content="#9f41ad">
+        <meta name="og:image" itemprop="image" content="/media/Images/black.png">
+
+    <% } else { %>
+        
+        <meta property="og:description" content="<%- emb.desc || 'Pozm\'s website. Used for getting scripts / authentication of users.' %>">
+        <meta name="theme-color" content="<%- emb.colour || '#9f41ad'%>">
+        <meta name="og:image" itemprop="image" content="<%- emb.img  || '/media/Images/black.png'%> ">
+
+    <% } %> 
+    <meta property="og:type" content="website">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/jqf.js"></script>
+    <% if (locals.rc) { %>
+        <script src="https://www.google.com/recaptcha/api.js"></script>
+    <% } %> 
+</head>

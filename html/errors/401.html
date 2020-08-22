@@ -5,6 +5,7 @@
         <link rel="stylesheet" type="text/css" href="../hi.css">
         <link rel="stylesheet" type="text/css" href="../styles.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        
 
 
         <meta property="og:site_name" content="Pozm.Media">
@@ -13,6 +14,7 @@
         <meta property="og:description" content="Looks like you're not allowed to access this page.. (401)">
         <meta property="og:type" content="website">
         <meta name="theme-color" content="#418dc0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,13 +25,13 @@
     <body class="NoScrollBar"  style="background-color: #433c55; height: 100%;">
         
         <h1 class="Title is-1" style="margin-left: 20px; color: rgb(252, 252, 252);"><span style="color: rgb(255, 104, 104);" >ERROR</span> 401</h1>
-        <h2 class="Subtitle is-3" id="change" style="margin-left: 20px; color: rgb(182, 182, 182);"> You are not authorized to access </h2>
+        <h2 class="Subtitle is-3" id="change" style="margin-left: 20px; color: rgb(182, 182, 182);"> You are not authorized to access <span id="thing" style="font-weight: bold;"> hi </span> <span style="font-size: 24px;">(This usually means you're not signed in, You can sign in <a href="/login">here</a>. If you are signed in and you think its a mistake, contact me @ Pozm#4351)</span> </h2>
 
     </body>
 
     <script>
 
-         document.getElementById('change').innerText+= ' ' + window.location.pathname
+        $('#thing').text(window.location.pathname)
 
     </script>
 

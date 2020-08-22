@@ -1,27 +1,6 @@
 <html>
 
-    <head>
-
-        <link rel="stylesheet" type="text/css" href="hi.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-        <meta property="og:site_name" content="Pozm.Media">
-        <meta property="og:url" content="https://Pozm.media">
-        <meta property="og:title" content="Pozm">
-        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
-        <meta property="og:type" content="website">
-        <meta name="theme-color" content="#418dc0">
-        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://unpkg.com/simplebar@latest/dist/simplebar.css"/>
-        <script src="https://unpkg.com/simplebar@latest/dist/simplebar.min.js"></script>
-
-    </head>
+    <%- include("head.ejs") -%> 
     <body data-simplebar style="background-color: rgb(40, 44, 47);">
 
 
@@ -37,29 +16,7 @@
         <!--     <div class="topBar"></div> -->
         
         <div class="bounder">
-            <header>
-                <div class = 'topBar'>
-                    <a href='/'>home</a>    
-                    <%- data ? 
-    
-    
-                        `<div class="dropdown" style = "float:right;">
-                            <button class="dropbtn">Signed into <b>${data.username}</b></button>
-                            <div class="dropdown-content">
-                                ${data.powerId >= 5? '<a href="/admin">Admin panel</a>' : ''}
-                                ${data.powerId >= 2? '<a href="/SSG">Synapse support</a>' : ''}
-                                <a href="/api/logout">Sign out</a>
-                            </div>
-                        </div>` : 
-    
-    
-                        "<a href='/login'>login</a>" 
-                    
-                    
-                    %>
-    
-                </div>
-            </header>
+            <%- include("nav.ejs") -%> 
             <div class="welcomingBox">
 
                 <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Hello <%= data.username  %></h1>
@@ -68,29 +25,94 @@
             </div>
 
 
-            <div class="main" style="flex-flow: wrap; width:auto">
+            <div class="main" style="flex-flow: wrap; /* width:auto; */">
 
-                <% for (let fixi of Object.keys(fixes)) { %>
+                <div class="Left-Box" style="overflow:auto;height: 70vh;">
 
-                    <% let fix = fixes[fixi] %> 
-                    <div class="box" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem; background-color: <%= Object.keys(fixes).indexOf(fixi) %2 == 1? 'rgb(51, 54, 58);' : 'rgb(41, 44, 48);'  %>">
+                    <div class="Left-BoxC" style="margin-left: 0px; width: 400px;padding: 1.5rem;height:inherit">
 
-                        <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= fixi %> </h1>
-                        <h2 class="subtitle is-5" style="color :rgb(202, 202, 202)">Last update <%= new Date(fix['Last Update']) %> </h1>
-                        <hr>
-                        <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Type</h1>
-                        <p><%= fix.TypeOfFix %> </p>
-                        <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">Caused by</h1>
-                        <p><%= fix.CausedBy %> </p>
-                        <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Instructional fix</h1>
-                        <p><%- fix.InstructionalFix.replace('\n','<br>') %> </p>
-                        <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Quick fix</h1>
-                        <p><%- fix.SupportFriendlyFix.replace('\n','<br>') %> </p>
+                        <aside class="menu" style="overflow: auto;">
+
+                            <p class="menu-label">
+                                SSG
+                            </p>
+                            <ul class="menu-list" >
+                                <li><a href="#Fixes" class="is-active">Fixes</a>
+                                
+                                    <ul id='m_FIXES'>
+                                        <% for (let fixi of Object.keys(fixes)) { %>
+                                            <li><a href="#<%= fixi.replace(' ','_') %>"><%= fixi %> </a></li>
+                                        <% } %> 
+                                    </ul>
+                                
+                                </li>
+                              </ul>
+
+                        </aside>
+                            
+
                     </div>
 
-                <% } %> 
+                </div>
+                
+
+                <div class="Right-Box" ">
+
+                    <h2 id='Fixes' class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Fixes</h2>
+                    <hr class="thick">
+
+                    <% for (let fixi of Object.keys(fixes)) { %>
+
+                        <% let fix = fixes[fixi] %> 
+                        <div class="box odd-even" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem" id = "<%= fixi.replace(' ','_') _%> ">
+
+                            <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= fixi %> </h1>
+                            <h2 class="subtitle is-5" style="color :rgb(202, 202, 202)">Last update <%= new Date(fix['Last Update']).toString(undefined,{hour12:true}) %> </h1>
+                            <hr class="light">
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Type</h1>
+                            <p><%= fix.TypeOfFix %> </p>
+                            <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">Caused by</h1>
+                            <p><%= fix.CausedBy %> </p>
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Instructional fix</h1>
+                            <p style="word-break: break-all;"><%- fix.InstructionalFix.replace('\n','<br>') %> </p>
+                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Quick fix</h1>
+                            <p style="word-break: break-all;"><%- fix.SupportFriendlyFix.replace('\n','<br>') %> </p>
+                        </div>
+
+                    <% } %> 
+
+                </div>
 
             </div>
+            <script>
+
+                function checkVisible(elm) {
+                    var rect = elm.getBoundingClientRect();
+                    var viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight);
+                    return !(rect.bottom < 0 || rect.top - viewHeight >= 0);
+                }
+
+                let things = ['Fixes']
+
+                let hrf= window.location.href
+                let shrf = hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0]
+
+                $('#Currently-Viewing').text(shrf)
+
+                $('body').scroll(()=>{
+
+
+                    for (let v of things) {
+                        let hrf= window.location.href
+                        let shrf = hrf.slice(hrf.lastIndexOf('/'))
+                        $('#Currently-Viewing').text(hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0])
+                        if (checkVisible($(`#${v}`).get()[0]) && shrf != '/SSG#'+v) window.location.href= '#'+v
+
+                    }
+
+                })
+
+            </script>
         </div>
 
     </body>

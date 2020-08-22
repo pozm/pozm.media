@@ -28,11 +28,13 @@
 /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
     width: 5px;
+    background: transparent;
+    z-index: 1;
 }
 
 
 html, body {
-    overflow: auto;
+    overflow: overlay;
 }
 
 
@@ -40,18 +42,19 @@ html, body {
 
 /* .body {overflow: overlay} */
 
-/* ::-webkit-scrollbar-track {
+::-webkit-scrollbar-track {
     background: transparent;
+    z-index: 1;
 }
 
 ::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.575);
     border-radius: 4px;
-    z-index: -1;
-} */
-.NoScrollBar::-webkit-scrollbar {
-    display: none;
+    z-index: 1;
 }
+/* .NoScrollBar::-webkit-scrollbar {
+    display: none;
+} */
 
 input {
     border-top-style: hidden;
@@ -153,7 +156,9 @@ input {
     -webkit-box-direction: normal;
         -ms-flex-flow: column;
             flex-flow: column; 
-    height: 100%;
+    height: auto;
+    min-height: 100%;
+    z-index: 3;
 
 }
 
@@ -333,7 +338,70 @@ scrollbar-width: none;  /* Firefox */
     min-width: fit-content;
 
 }
+.box.odd-even {
 
+    background-color: rgb(51, 54, 58);
+
+}
+.box.odd-even:nth-child(even) {
+
+    background-color: rgb(41, 44, 48);
+
+}
+
+.Left-Box {
+
+    flex: 0 0 400px;
+    margin-left: 1vw;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    /* max-height: 40vh; */
+    
+}
+.Left-BoxC {
+
+    flex: 0 0 400px;
+    background-color: rgb(25, 27, 29);
+    margin-left: 1vw;
+    border-radius: 7px;
+    display: flex;
+    /* justify-content: center; */
+    /* max-height: 40vh; */
+    position: fixed;
+
+}
+.Right-Box {
+
+    min-width: 400px;
+    flex:1;
+    padding-right: 1vw;
+    padding-left: 1vw;
+
+}
+
+
+hr {
+
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: rgb(26, 26, 26);
+    border-radius: 4px;
+
+}
+
+hr.thick {
+
+    height: 5px;
+
+}
+
+hr.light {
+
+    height: 3px;
+
+}
 
 .back {
 
@@ -347,7 +415,7 @@ scrollbar-width: none;  /* Firefox */
     position: absolute;
     width: 100%;
     /* The image used */
-    background-image: url("Images/backDrop.png");
+    background-image: url("media/Images/backDrop.png");
   
     /* Full height */
     height: 100%;
@@ -382,4 +450,19 @@ ol {
     left: -30px;
     height: 100%;
     width: 30px;
+}
+@media screen and (max-width: 810px) {
+
+    .Left-BoxC {
+
+        flex: 0 0 400px;
+        background-color: rgb(25, 27, 29);
+        margin-left: 1vw;
+        border-radius: 7px;
+        display: flex;
+        justify-content: center;
+        position: relative;
+    
+    }
+
 }

@@ -1,0 +1,59 @@
+
+<html>
+
+    <%- include("head.ejs") -%> 
+
+
+
+    <body  class="NoScrollBar" style="background-color: rgb(40, 44, 47);">
+
+
+        <!-- 
+            Website by  
+                Pozm#4351 ~ 690944032355909662
+                Pozm#6946 ~ 288062966803333120
+        -->
+        <div class="bg"></div>
+
+
+        <%- include("nav.ejs") -%> 
+
+
+        <div class = 'box welcomingBox loginBox'>
+
+
+            <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Random name generator</h1>
+            <div style="margin-top: 20px;">
+                <form action="" method="GET" style="position: relative; display: grid;">
+                
+                    <input type="text" id='un' class="input tb no-outline sutb" name="user" placeholder="Name" readonly=true>
+                    <input type="button" id='sub' class="button" value="Generate!">
+                    
+                    <script src='/words.jsonp'></script>
+                    <script>
+
+                        let button = $('#sub')
+                        let text = $('#un')
+
+                        console.log(words)
+                        button.click(()=>{
+
+                            let noun = words.nouns[Math.floor(Math.random() * words.nouns.length)]
+                            let adj = words.adj[Math.floor(Math.random() * words.adj.length)]
+
+
+                            text.val(`${adj} ${noun}`)
+
+                        })
+
+                    </script>
+                </form>
+            </div>
+
+        </div>
+
+
+    </body>
+
+
+</html>

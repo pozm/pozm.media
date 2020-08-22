@@ -1,26 +1,6 @@
 <html>
 
-    <head>
-
-        <link rel="stylesheet" type="text/css" href="hi.css">
-        <link rel="stylesheet" type="text/css" href="styles.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
-        <meta property="og:site_name" content="Pozm.Media">
-        <meta property="og:url" content="https://Pozm.media">
-        <meta property="og:title" content="Pozm">
-        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
-        <meta property="og:type" content="website">
-        <meta name="theme-color" content="#418dc0">
-        <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
-
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    </head>
+    <%- include("head.ejs") -%> 
 
 
 
@@ -35,12 +15,7 @@
         <div class="bg"></div>
 
 
-        <div class = 'topBar'>
-
-            <a href='/'>home</a>
-            <a href='/login'>login</a>
-
-        </div>
+        <%- include("nav.ejs") -%> 
 
 
         <div class = 'box welcomingBox loginBox'>
@@ -50,8 +25,8 @@
             <div style="margin-top: 20px;">
                 <form action="" method="POST" style="position: relative; display: grid;">
                 
-                    <input type="email" id='un' class="tb no-outline sutb" name="username" placeholder="Username or Email">
-                    <input type="password" id='pw' class="tb no-outline sutb" name="password" placeholder="Password">
+                    <input type="email" id='un' class="input tb no-outline sutb" name="username" placeholder="Username or Email">
+                    <input type="password" id='pw' class="input tb no-outline sutb" name="password" placeholder="Password">
                     <input type="button" id='sub' class="button" value="Okay!">
 
 
@@ -79,8 +54,8 @@
                 let pw =$('#pw')
 
                 let data ={
-                    'username':un.value,
-                    'password':pw.value
+                    'username':un.val(),
+                    'password':pw.val()
                 }
                 console.log(data)
                 $.ajax({

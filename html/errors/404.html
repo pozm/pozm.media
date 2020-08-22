@@ -16,6 +16,7 @@
         <!-- <link type="application/json+oembed" href="Embeddata.json" /> -->
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <!-- <meta name="og:image" itemprop="image" content="path/to/image.png"> -->
 
     </head>
@@ -23,12 +24,25 @@
     <body class="NoScrollBar"  style="background-color: #433c55; height: 100%;">
         
         <h1 class="Title is-1" style="margin-left: 20px; color: rgb(252, 252, 252);"><span style="color: rgb(255, 104, 104);" >ERROR</span> 404</h1>
-        <h2 class="Subtitle is-3" id="change" style="margin-left: 20px; color: rgb(182, 182, 182);"> Unable to find anything at </h2>
+        <h2 class="Subtitle is-3" id="change" style="margin-left: 20px; color: rgb(182, 182, 182);"> Unable to find anything at <span id="thing"></span>. Redirecting in <span id='time' style="font-weight: bold;">10</span> </h2>
 
     </body>
 
     <script>
-         document.getElementById('change').innerText+= ' ' + window.location.pathname
+        $('#thing').text(window.location.pathname)
+
+        let red = $('#time')
+
+        let n = parseInt(red.text())
+
+        setInterval(()=>{
+
+            n--
+            console.log(n)
+            if (n == -1) window.location.replace(window.location.origin)
+            else red.text(n)
+
+        },1e3)
 
     </script>
 

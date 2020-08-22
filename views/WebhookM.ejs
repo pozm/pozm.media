@@ -1,0 +1,195 @@
+<html>
+    <%- include("head.ejs") -%> 
+
+    <body style="background-color: rgb(40, 44, 47); height: auto;">
+        <div class="bounder">
+            <%- include("nav.ejs") -%> 
+            <div class="welcomingBox">
+
+                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Discord webhook tools</h1>
+                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Allows you to manage webhooks.</h2>
+
+            </div>
+            <div class="main" style="flex-flow: wrap;">
+
+                <section class="container is-fullhd">
+                    <div class="box" style="background-color:rgb(29, 29, 29)">
+
+                        <div class="field" id = 'f'>
+
+                            <label class="label" style="color: rgb(202, 202, 202);">URL</label>
+                            <div class="control">
+                                <input class="input" type="text" placeholder="Webhook URL" id = 'URL'>
+                            </div>
+                            <div class="columns" id = 'extra' style="opacity: 0;display: none;transition:opacity 1s;">
+                                <div class="column">
+                                    <label class="label" style="color: rgb(202, 202, 202);">content</label>
+                                    <div class="control">
+                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;" rows="4"></textarea>
+
+                                    </div>
+                                </div>
+                                <div class="column is-two-fifths">
+                                    <label class="label" style="color: rgb(202, 202, 202);">name</label>
+                                    <div class="control">
+                                        <input class="input" type="text" placeholder="Webhook name" id = 'name'>
+
+                                    </div>
+                                    <label class="label" style="color: rgb(202, 202, 202);">Avatar URL</label>
+                                    <div class="control">
+                                        <input class="input" type="text" placeholder="Webhook Avatar" id = 'avatar'>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="level">
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <p class="control">
+                                            <input type="button" class="button is-link"value="Toggle extra" style="margin-top: 20px;" id='te'>
+                                        </p>
+                                    </div>
+                                    <div class="level-item" id="sendp" style="opacity: 0;display: none;transition:opacity 1s;">
+                                        <p class="control">
+                                            <input type="button" class="button is-primary"value="Send" style="margin-top: 20px;" id='send'>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="level-right">
+                                    <div class="level-item">
+                                        <p class="control">
+                                            <input type="button" class="button is-danger is-right"value="Delete" style="margin-top: 20px;" id='delete'>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="help" id='help'></p>
+                        </div>
+                        <script>
+
+                            let m = $('#f')
+                            let url = $('#URL')
+                            let regx = /https:\/\/(canary|ptb)?\.?discord(app)?\.com\/api\/webhooks\/(?<id>\d+)\/(?<secret>\S*)/mi
+                            let hasValid = false;
+                            url.on('input',(e)=>{
+                                let ma = url.val().match(regx)
+                                if (!ma) {
+
+                                    url.addClass('is-danger')
+                                    url.removeClass('is-success')
+                                    hasValid = false;
+
+                                }else {
+
+                                    url.removeClass('is-danger')
+                                    url.parent().addClass('is-loading')
+                                    $.ajax(
+                                        {
+                                            url: url.val(), 
+                                            success:suc => {
+                                                url.addClass('is-success')
+                                                url.parent().removeClass('is-loading')
+                                                hasValid = true;
+                                            },
+                                            error:e=>{
+
+                                                url.addClass('is-danger')
+                                                url.removeClass('is-success')
+                                                url.parent().removeClass('is-loading')
+                                                hasValid = false;
+
+                                            }
+                                        }
+                                    )
+                                }
+
+                            })
+                            $('#delete').click((e)=>{
+
+                                if (!hasValid) return $('#help').text('The provided webhook is invalid.');
+                                $('#help').text();
+                                $.ajax({
+
+                                    url:url.val(),
+                                    method:'delete',
+                                    success:suc=>{
+                                        $('#help').text('Successfully deleted that webhook.');
+                                        url.addClass('is-danger')
+                                        url.removeClass('is-success')
+                                        hasValid = false
+                                    },
+                                    error:e=>{
+                                        $('#help').text('Something wen\'t wrong while trying to delete the webook');
+                                    }
+                                    
+                                    
+                                })
+
+                            })
+                            $('#send').click(e=>{
+
+                                if (!hasValid) return $('#help').text('The provided webhook is invalid.');
+                                let d = {
+
+                                    content: $('#content').val() || 'hi',
+                                    username: $('#name').val() || '',
+                                    avatar_url:$('#avatar').val() || ''
+
+                                }
+                                $.ajax({
+
+                                    url:url.val(),
+                                    method:'post',
+                                    data:d,
+                                    processData:true,
+                                    success:suc=>{
+                                        $('#help').text('Successfully sent!');
+                                        
+                                    },
+                                    error:e=>{
+                                        $('#help').text('Something wen\'t wrong while trying to send');
+                                        console.log(e)
+                                        console.log('SENT:',d)
+                                    }
+
+
+                                })
+                            })
+                            let extra = false;
+                            $('#te').click(e=>{
+
+                                if (!extra){
+
+                                    $('#sendp,#extra').css({display:'flex'})
+                                    setTimeout(()=>{
+                                        $('#sendp,#extra').css({opacity:1})
+                                    },1e1)
+                                    extra = ! extra
+                                }else{
+
+                                    $('#sendp,#extra').css({opacity:0})
+                                    setTimeout(()=>{
+                                        $('#sendp,#extra').css({display:'none'})
+                                    },1e3)
+                                    extra = ! extra
+
+                                }
+
+
+
+                            })
+
+
+                        </script>
+
+
+                    </div>
+
+                </section>
+
+            </div>
+        </div>
+    </body>
+
+</html>
+
