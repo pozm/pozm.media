@@ -15,17 +15,23 @@
                 <section class="container is-fullhd">
                     <div class="box" style="background-color:rgb(29, 29, 29)">
 
+
                         <div class="field" id = 'f'>
+
+                            <!-- Url // webhook url -->
 
                             <label class="label" style="color: rgb(202, 202, 202);">URL</label>
                             <div class="control">
-                                <input class="input" type="text" placeholder="Webhook URL" id = 'URL'>
+                                <input class="input" type="url" placeholder="Webhook URL" id = 'URL'>
                             </div>
+
+                            <!-- extra // send data -->
+
                             <div class="columns" id = 'extra' style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden;">
                                 <div class="column">
                                     <label class="label" style="color: rgb(202, 202, 202);">content</label>
                                     <div class="control">
-                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;transition:none" rows="4"></textarea>
+                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;transition:none;min-height: 8em;" rows="4"></textarea>
 
                                     </div>
                                 </div>
@@ -37,11 +43,48 @@
                                     </div>
                                     <label class="label" style="color: rgb(202, 202, 202);">Avatar URL</label>
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Webhook Avatar" id = 'avatar'>
+                                        <input class="input" type="url" placeholder="Webhook Avatar" id = 'avatar'>
 
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- extra2 // view data -->
+                                <div class="column" id ="extra2" style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden; display: flex;">
+                                    <div style="display: flex; flex-flow: column;">
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Name: </label>
+                                            <span id="w_n">Unknown</span>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">id: </label>
+                                            <span id="w_id">Unknown</span>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Channel id: </label>
+                                            <span id="w_cid">Unknown</span>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;flex-flow: column; margin-left: 1em;">
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Guild id: </label>
+                                            <span id="w_gid">Unknown</span>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Avatar: </label>
+                                            <a id = "w_pav">
+                                                <span id="w_av">Unknown</span>
+                                            </a>
+                                        </div>
+                                        <div style="display: flex;">
+                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Token: </label>
+                                            <span id="w_t">Unknown</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <!-- Buttons // send, modify etc. -->
+
                             <div class="level">
                                 <div class="level-left">
                                     <div class="level-item">
@@ -52,6 +95,11 @@
                                     <div class="level-item" id="sendp" style="max-height: 0%;opacity:0; transition: all 2s;">
                                         <p class="control">
                                             <input type="button" class="button is-primary"value="Send" style="margin-top: 20px;" id='send'>
+                                        </p>
+                                    </div>
+                                    <div class="level-item" id="modp" style="max-height: 0%;opacity:0; transition: all 2s;">
+                                        <p class="control">
+                                            <input type="button" class="button is-info"value="Modify" style="margin-top: 20px;" id='mod'>
                                         </p>
                                     </div>
                                 </div>
@@ -65,12 +113,48 @@
                             </div>
                             <p class="help" id='help'></p>
                         </div>
+
+                        <!-- Make stuff work. -->
+
                         <script>
 
                             let m = $('#f')
                             let url = $('#URL')
                             let regx = /https:\/\/(canary|ptb)?\.?discord(app)?\.com\/api\/webhooks\/(?<id>\d+)\/(?<secret>\S*)/mi
                             let hasValid = false;
+                            let currData
+                            
+                            async function toDataURL(url) {
+                                let xhr = new XMLHttpRequest(); // have to use xhr bc using ajax fucks with it
+                                return new Promise(resolve=>{
+                                    xhr.onload = function() {
+                                    let reader = new FileReader();
+                                    reader.onloadend = function() {
+                                        resolve(reader.result);
+                                    }
+                                    reader.readAsDataURL(xhr.response);
+                                    };
+                                    xhr.open('GET', url);
+                                    xhr.responseType = 'blob';
+                                    xhr.send();
+                                })
+                            }
+                            let derf = 'https://cdn.discordapp.com/avatars/'
+                            function show() {
+                                $('#w_id').text(currData.id)
+                                $('#w_n').text(currData.name)
+                                $('#w_t').text(currData.token)
+                                $('#w_cid').text(currData.channel_id)
+                                $('#w_gid').text(currData.guild_id)
+                                $('#w_av').text(currData.avatar)
+                                $('#w_pav').attr('href',`${derf}/${currData.id}/${currData.avatar}`)
+                                $('#extra2').css({overflow:'hidden','max-height':'100%',opacity:1})
+                            }
+                            function hide () {
+                                $('#w_id,#w_n,#w_t,#w_cid,#w_av,#w_gid').text('Unkown')
+                                $('#extra2').css({overflow:'hidden','max-height':'0%',opacity:0})
+                            }
+
                             url.on('input',(e)=>{
                                 let ma = url.val().match(regx)
                                 if (!ma) {
@@ -78,6 +162,7 @@
                                     url.addClass('is-danger')
                                     url.removeClass('is-success')
                                     hasValid = false;
+                                    hide()
 
                                 }else {
 
@@ -89,6 +174,8 @@
                                             success:suc => {
                                                 url.addClass('is-success')
                                                 url.parent().removeClass('is-loading')
+                                                currData = suc
+                                                show()
                                                 hasValid = true;
                                             },
                                             error:e=>{
@@ -96,6 +183,7 @@
                                                 url.addClass('is-danger')
                                                 url.removeClass('is-success')
                                                 url.parent().removeClass('is-loading')
+                                                hide()
                                                 hasValid = false;
 
                                             }
@@ -116,6 +204,7 @@
                                         $('#help').text('Successfully deleted that webhook.');
                                         url.addClass('is-danger')
                                         url.removeClass('is-success')
+                                        hide()
                                         hasValid = false
                                     },
                                     error:e=>{
@@ -132,8 +221,8 @@
                                 let d = {
 
                                     content: $('#content').val() || 'hi',
-                                    username: $('#name').val() || '',
-                                    avatar_url:$('#avatar').val() || ''
+                                    username: $('#name').val() || currData.name,
+                                    avatar_url:$('#avatar').val() || currData.avatar
 
                                 }
                                 $.ajax({
@@ -155,8 +244,38 @@
 
                                 })
                             })
+                            $('#mod').click(async e=>{
+
+                                if (!hasValid) return $('#help').text('The provided webhook is invalid.');
+                                let d = {
+                                    name: $('#name').val() || currData.name,
+                                    avatar: await toDataURL($('#avatar').val()) || currData.avatar
+
+                                }
+                                $.ajax({
+
+                                    url:url.val(),
+                                    method:'PATCH',
+                                    data:JSON.stringify(d),
+                                    contentType:'application/json;charset=utf-8',
+                                    processData:true,
+                                    success: suc=>{
+                                        $('#help').text('Successfully modified!');
+                                        currData = suc
+                                        show()
+                                        
+                                    },
+                                    error:e=>{
+                                        $('#help').text(`Something wen\'t wrong while trying to modify ( ${e.responseJSON._misc} )`);
+                                        console.log(e)
+                                        console.log('SENT:',d)
+                                    }
+
+
+                                })
+                            })
                             let extra = false;
-                            let ttt = $('#sendp,#extra')
+                            let ttt = $('#sendp,#extra,#modp')
                             $('#te').click(e=>{
 
                                 if (!extra){
