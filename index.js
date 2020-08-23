@@ -358,7 +358,7 @@ app.post('/api/CreateAccount', async (req,res) => {
 
     if (!email.match(/.{0,64}[@](\w{0,255}[.])\w{0,10}/)) return res.status(400).send(JSON.stringify({'error':3,message:'bad email'}))
     if (username.match(/(.{30,}|[^A-Za-z\d])/)) return res.status(400).send(JSON.stringify({'error':4,message:'bad username'}))
-    if (!password.match(/(.{32,}|^[\x00-\x7F]+$)/)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid'}))
+    if (!password.match(/^[\x00-\x7F]{8,32}$/i)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid'}))
     con.query('select * from `whitelist`.`account` where username = ? or email = ?', [username,email], async (err , resu) => {
 
         if (err) throw err
@@ -404,6 +404,9 @@ app.get('/contact', (req,res)=>{
 
     res.render('contact')
 
+})
+app.get('/byeLS',(rq,rs)=>{
+    rs.render('bls')
 })
 
 //meme shit
