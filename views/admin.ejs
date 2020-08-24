@@ -39,81 +39,84 @@
 
             <%- include("nav.ejs") -%> 
             
-            <div class="welcomingBox">
-
-                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Hello <%= data.username  %></h1>
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> Welcome to the admin panel!  </h2>
-                <br>
-                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Current users in db</h1>
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> <%= reg.length %>  </h2>
-
-            </div>
-
-
-            <div class="main" style="flex-flow: wrap; /* width:auto; */">
-
-                <div class="Left-Box">
-
-                    <div class="Left-BoxC" style="margin-left: 0px; width: 400px;padding: 1.5rem;height: 60vh;overflow-y: auto;">
-
-                        <aside class="menu">
-
-                            <p class="menu-label">
-                                Users
-                            </p>
-                            <ul class="menu-list" >
-                                <li><a href="#Users" class="is-active">Current users in DB</a>
-                                
-                                    <ul id='m_USERS'>
-                                        <% for (let useri of Object.keys(reg)) { %>
-
-                                            <% let user = reg[useri] %> 
-                                            <li><a href="#<%= user.username %>"><%= user.username %> </a></li>
-                                        <% } %> 
-                                    </ul>
-                                
-                                </li>
-                              </ul>
-
-                        </aside>
-                            
-
-                    </div>
-
+            
+            
+            <div class="main" style="background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
+                <div class="welcomingBox" style="flex-flow: column; background:none">
+    
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Hello <%= data.username  %></h1>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> Welcome to the admin panel!  </h2>
+                    <br>
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Current users in db</h1>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;"> <%= reg.length %>  </h2>
+    
                 </div>
-                
 
-                <div class="Right-Box">
+                <div style="flex-flow: wrap;display: flex;">
 
-                    <h2 id='Users' class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Users</h2>
-                    <hr class="thick">
+                    <div class="Left-Box">
 
-                    <% for (let useri of Object.keys(reg)) { %>
+                        <div class="Left-BoxC" style="margin-left: 0px; width: 400px;padding: 1.5rem;max-height: 60vh;overflow-y: auto;">
 
-                        <% let user = reg[useri] %> 
-                        <div class="box odd-even" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem" id="<%- user.username %>">
+                            <aside class="menu">
 
-                            <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= user.username %> </h1>
-                            <h2 class="subtitle is-5" style="color :rgb(202, 202, 202)">ID :<%= user.id %> </h1>
-                            <hr class="light">
-                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Email</h1>
-                            <p class = "email"><%= user.email %> </p>
-                            <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">Registered at </h1>
-                            <p><%= new Date(user.registeredAt).toString(undefined,{hour12:true}) %> </p>
-                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Power</h1>
-                            <p style="word-break: break-all;"><%= user.powerId %> </p>
-                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Registered IP</h1>
-                            <p style="word-break: break-all;" class="email"><%= user.registerIp %> </p>
-                            <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Subscriptions</h1>
-                            <p style="word-break: break-all;"><%= user.subscriptions %> </p>
-                            <% if (data.powerId > user.powerId) { %> 
-                                <button class="button is-danger" onclick="Delete(this.id)" id="d_<%= user.id %>">Delete account</button>
-                                <button class="button is-primary"onclick="PowerChange(this.id)"id="pc_<%= user.id %>">Change Power</button>
-                            <% } %> 
+                                <p class="menu-label">
+                                    Users
+                                </p>
+                                <ul class="menu-list" >
+                                    <li><a href="#Users" class="is-active">Current users in DB</a>
+                                    
+                                        <ul id='m_USERS'>
+                                            <% for (let useri of Object.keys(reg)) { %>
+
+                                                <% let user = reg[useri] %> 
+                                                <li><a href="#<%= user.username %>"><%= user.username %> </a></li>
+                                            <% } %> 
+                                        </ul>
+                                    
+                                    </li>
+                                </ul>
+
+                            </aside>
+                                
+
                         </div>
 
-                    <% } %> 
+                    </div>
+                    
 
+                    <div class="Right-Box">
+
+                        <h2 id='Users' class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Users</h2>
+                        <hr class="thick">
+
+                        <% for (let useri of Object.keys(reg)) { %>
+
+                            <% let user = reg[useri] %> 
+                            <div class="box odd-even" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem" id="<%- user.username %>">
+
+                                <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= user.username %> </h1>
+                                <h2 class="subtitle is-5" style="color :rgb(202, 202, 202)">ID :<%= user.id %> </h1>
+                                <hr class="light">
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Email</h1>
+                                <p class = "email"><%= user.email %> </p>
+                                <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">Registered at </h1>
+                                <p><%= new Date(user.registeredAt).toString(undefined,{hour12:true}) %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Power</h1>
+                                <p style="word-break: break-all;"><%= user.powerId %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Registered IP</h1>
+                                <p style="word-break: break-all;" class="email"><%= user.registerIp %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Subscriptions</h1>
+                                <p style="word-break: break-all;"><%= user.subscriptions %> </p>
+                                <% if (data.powerId > user.powerId) { %> 
+                                    <button class="button is-danger" onclick="Delete(this.id)" id="d_<%= user.id %>">Delete account</button>
+                                    <button class="button is-primary"onclick="PowerChange(this.id)"id="pc_<%= user.id %>">Change Power</button>
+                                <% } %> 
+                            </div>
+
+                        <% } %> 
+
+                    </div>
                 </div>
 
             </div>

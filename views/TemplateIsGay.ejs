@@ -4,14 +4,13 @@
     <body style="background-color: rgb(40, 44, 47); height: auto;">
         <div class="bounder">
             <%- include("nav.ejs") -%> 
-            <div class="welcomingBox">
-
-                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;"><%=user%> is gay</h1>
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Here is a few reasons why</h2>
-
-            </div>
-            <div class="main" style="align-items: center;">
-                <% console.log(locals) %> 
+            <div class="main" style="align-items: center;background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
+                <div class="welcomingBox" style="background: none;">
+    
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;"><%=user%> is gay</h1>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Here is a few reasons why</h2>
+    
+                </div>
                 <% if (locals.by == locals.data?.username) { %> 
                     <section class="container is-fullhd">
 
@@ -59,12 +58,12 @@
                     let triggerDistance = $(document).height() - $(window).height() - 50;
                     document.title = decodeURI($('meta[property="og:description"]').attr('content'))
 
-                    for (let i=0;i<40;i++) 
+                    for (let i=0;i<100;i++) 
                     {
 
-                        var clonedItem = $("#t").clone();
-                            clonedItem.removeAttr('id');
-                            clonedItem.appendTo('#list')
+                        let clonedItem = $("#t").clone();
+                        clonedItem.removeAttr('id');
+                        clonedItem.appendTo('#list')
 
                     }
 
@@ -73,9 +72,16 @@
                         scrolledDistance = $(window).scrollTop();
 
                         if ( scrolledDistance > triggerDistance) {
-                            var clonedItem = $("#t").clone();
+                            let clonedItem = $("#t").clone();
                             clonedItem.removeAttr('id');
                             clonedItem.appendTo('#list')
+                            if ($('.title.is-5.alt').length == 2499) $("#t").clone().removeAttr('id').text('Dude, are you alright?').appendTo('#list')
+                            else if ($('.title.is-5.alt').length == 4999) $("#t").clone().removeAttr('id').text('Alright, you surely have no life').appendTo('#list')
+                            else if ($('.title.is-5.alt').length == 9999) $("#t").clone().removeAttr('id').text('Still? how, surely you\'re not mentally stable.. right? ').appendTo('#list')
+                            else if ($('.title.is-5.alt').length == 14999) $("#t").clone().removeAttr('id').text('WTF, dude ur scaring me').appendTo('#list')
+                            else if ($('.title.is-5.alt').length == 19999) $("#t").clone().removeAttr('id').text('😔').appendTo('#list')
+                            else if ($('.title.is-5.alt').length == 24999) $("#t").clone().removeAttr('id').text('dude ur kinda poggers').appendTo('#list')
+                            delete clonedItem
 
                         }
 

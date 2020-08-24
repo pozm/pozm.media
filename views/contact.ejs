@@ -17,7 +17,7 @@
             <%- include("nav.ejs") -%> 
 
 
-            <div class="main" style="background: linear-gradient(171deg, rgba(176,189,255,0.05085784313725494) 0%, rgba(252,70,107,1) 100%);">
+            <div class="main" style="background: linear-gradient(171deg, rgba(176,189,255,0.05085784313725494) 0%, rgba(252,70,107,1) 100%);transition:all 4s">
 
                 <!-- <div class="box" style="height: -webkit-fill-available;background-color: #1b1c1f; width: 100%;" > -->
 
@@ -42,6 +42,14 @@
                     </div>
 
                 <!-- </div> -->
+
+                <script>
+                    let deg = parseInt($('.main').css('background').split(' ')[4].slice('linear-gradient('.length))
+                    setInterval(()=>{
+                        $('.main').css({'background':`linear-gradient(${++deg}deg, rgba(176,189,255,0.05085784313725494) 0%, rgba(252,70,107,1) 100%)`})
+                    },3e3 / Math.PI)
+
+                </script>
 
             </div>
 

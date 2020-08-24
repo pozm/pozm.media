@@ -12,24 +12,12 @@
 }
 
 
-.YellowSelection::-moz-selection {
-
-    background-color: rgb(216, 202, 76);
-
-}
-
-
-.YellowSelection::selection {
-
-    background-color: rgb(216, 202, 76);
-
-}
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 ::-webkit-scrollbar {
     width: 5px;
     background: transparent;
     z-index: 1;
+    transition: all 1s;
 }
 
 
@@ -51,6 +39,9 @@ html, body {
     background: rgba(255, 255, 255, 0.575);
     border-radius: 4px;
     z-index: 1;
+}
+::-webkit-scrollbar:hover  {
+    width:15px
 }
 /* .NoScrollBar::-webkit-scrollbar {
     display: none;
@@ -172,7 +163,7 @@ input {
     -webkit-box-shadow: 5px 10px #0000004f;
             box-shadow: 5px 10px #0000004f;
     max-width: 400px;
-    margin-bottom: 0px;
+    /* margin-bottom: 0px; */
     margin-top: 10vh;
 }
 a:hover {
@@ -373,7 +364,7 @@ scrollbar-width: none;  /* Firefox */
 }
 .Right-Box {
 
-    min-width: 400px;
+    /* min-width: 400px; */
     flex:1;
     padding-right: 1vw;
     padding-left: 1vw;
@@ -412,7 +403,7 @@ hr.light {
 
 }
 .bg {
-    position: absolute;
+    position: fixed;
     width: 100%;
     /* The image used */
     background-image: url("media/Images/backDrop.png");

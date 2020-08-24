@@ -4,82 +4,102 @@
     <body style="background-color: rgb(40, 44, 47); height: auto;">
         <div class="bounder">
             <%- include("nav.ejs") -%> 
-            <div class="welcomingBox">
+            <div class="main" style="flex-flow: wrap;background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
+                <div class="welcomingBox" style="background: none;padding: auto 0;margin: 0 1vw;flex: .4 1 10%;">
+    
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Discord webhook tools</h1>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Allows you to manage webhooks.</h2>
+    
+                </div>
 
-                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Discord webhook tools</h1>
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Allows you to manage webhooks.</h2>
-
-            </div>
-            <div class="main" style="flex-flow: row;">
-
-                <section class="container is-fullhd">
-                    <div class="box" style="background-color:rgb(29, 29, 29)">
+                <section class="container is-fullhd" style="/* justify-self: center; *//* justify-content: center; *//* justify-items: center; */">
+                    <div class="box" style="background-color:rgb(29, 29, 29);/* margin: 1 0; */margin-top: auto;margin-bottom: auto;">
 
 
-                        <div class="field" id = 'f'>
+                        <div class="field" id="f">
 
                             <!-- Url // webhook url -->
 
                             <label class="label" style="color: rgb(202, 202, 202);">URL</label>
                             <div class="control">
-                                <input class="input" type="url" placeholder="Webhook URL" id = 'URL'>
+                                <input class="input" type="url" placeholder="Webhook URL" id="URL">
                             </div>
 
                             <!-- extra // send data -->
 
-                            <div class="columns" id = 'extra' style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden;">
+                            <div class="columns" id="extra" style="max-height: 0%; opacity: 0; transition: all 2s ease 0s; margin-bottom: 0px; margin-top: 0px; overflow: hidden;">
                                 <div class="column">
                                     <label class="label" style="color: rgb(202, 202, 202);">content</label>
                                     <div class="control">
-                                        <textarea class="textarea" placeholder="Webhook content" id = 'content' style="resize: vertical;transition:none;min-height: 8em;" rows="4"></textarea>
+                                        <textarea class="textarea" placeholder="Webhook content" id="content" style="resize: vertical;transition:none;min-height: 8em;" rows="4"></textarea>
 
                                     </div>
                                 </div>
                                 <div class="column is-two-fifths">
                                     <label class="label" style="color: rgb(202, 202, 202);">name</label>
                                     <div class="control">
-                                        <input class="input" type="text" placeholder="Webhook name" id = 'name'>
+                                        <input class="input" type="text" placeholder="Webhook name" id="name">
 
                                     </div>
                                     <label class="label" style="color: rgb(202, 202, 202);">Avatar URL</label>
                                     <div class="control">
-                                        <input class="input" type="url" placeholder="Webhook Avatar" id = 'avatar'>
+                                        <div class="file has-name">
+                                            <label class="file-label">
+                                              <input class="file-input" type="file" name="resume" id="avatar" accept=".png,.jpeg">
+                                                <span class="file-cta">
+                                                    <span class="file-icon">
+                                                    <i class="fas fa-upload" aria-hidden="true"></i>
+                                                    </span>
+                                                    <span class="file-label">
+                                                        Choose a file…
+                                                    </span>
+                                                </span>
+                                                <span class="file-name">
+                                                    No file.
+                                                </span>
+                                            </label>
+                                        </div>
 
                                     </div>
                                 </div>
                             </div>
 
                             <!-- extra2 // view data -->
-                                <div class="column" id ="extra2" style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden; display: flex;">
+                                <div class="column" id="extra2" style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden; display: flex;">
                                     <div style="display: flex; flex-flow: column;">
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Name: </label>
+                                            <label class="label" style="margin-right: 1rem;">Name: </label>
                                             <span id="w_n">Unknown</span>
                                         </div>
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">id: </label>
+                                            <label class="label" style="margin-right: 1rem;">id: </label>
                                             <span id="w_id">Unknown</span>
                                         </div>
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Channel id: </label>
+                                            <label class="label" style="margin-right: 1rem;">Channel id: </label>
                                             <span id="w_cid">Unknown</span>
                                         </div>
                                     </div>
                                     <div style="display: flex;flex-flow: column; margin-left: 1em;">
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Guild id: </label>
+                                            <label class="label" style="margin-right: 1rem;">Guild id: </label>
                                             <span id="w_gid">Unknown</span>
                                         </div>
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Avatar: </label>
-                                            <a id = "w_pav">
+                                            <label class="label" style="margin-right: 1rem;">Avatar: </label>
+                                            <a id="w_pav">
                                                 <span id="w_av">Unknown</span>
                                             </a>
                                         </div>
                                         <div style="display: flex;">
-                                            <label class="label" style="margin-right: 1rem;" style="color: rgb(202, 202, 202);">Token: </label>
+                                            <label class="label" style="margin-right: 1rem;">Token: </label>
                                             <span id="w_t">Unknown</span>
                                         </div>
+                                    </div>
+                                    <div style="display: flex;flex-flow: column; margin-left: 1em;">
+
+                                        <img src="" id="w_avI" crossorigin="anonymous">
+
                                     </div>
                                 </div>
 
@@ -89,29 +109,29 @@
                                 <div class="level-left">
                                     <div class="level-item">
                                         <p class="control">
-                                            <input type="button" class="button is-link"value="Toggle extra" style="margin-top: 20px;" id='te'>
+                                            <input type="button" class="button is-link" value="Toggle extra" style="margin-top: 20px;" id="te">
                                         </p>
                                     </div>
-                                    <div class="level-item" id="sendp" style="max-height: 0%;opacity:0; transition: all 2s;">
+                                    <div class="level-item" id="sendp" style="max-height: 0%; opacity: 0; transition: all 2s ease 0s; overflow: hidden;">
                                         <p class="control">
-                                            <input type="button" class="button is-primary"value="Send" style="margin-top: 20px;" id='send'>
+                                            <input type="button" class="button is-primary" value="Send" style="margin-top: 20px;" id="send">
                                         </p>
                                     </div>
-                                    <div class="level-item" id="modp" style="max-height: 0%;opacity:0; transition: all 2s;">
+                                    <div class="level-item" id="modp" style="max-height: 0%; opacity: 0; transition: all 2s ease 0s; overflow: hidden;">
                                         <p class="control">
-                                            <input type="button" class="button is-info"value="Modify" style="margin-top: 20px;" id='mod'>
+                                            <input type="button" class="button is-info" value="Modify" style="margin-top: 20px;" id="mod">
                                         </p>
                                     </div>
                                 </div>
                                 <div class="level-right">
                                     <div class="level-item">
                                         <p class="control">
-                                            <input type="button" class="button is-danger is-right"value="Delete" style="margin-top: 20px;" id='delete'>
+                                            <input type="button" class="button is-danger is-right" value="Delete" style="margin-top: 20px;" id="delete">
                                         </p>
                                     </div>
                                 </div>
                             </div>
-                            <p class="help" id='help'></p>
+                            <p class="help" id="help"></p>
                         </div>
 
                         <!-- Make stuff work. -->
@@ -124,19 +144,13 @@
                             let hasValid = false;
                             let currData
                             
-                            async function toDataURL(url) {
-                                let xhr = new XMLHttpRequest(); // have to use xhr bc using ajax fucks with it
+                            function getBase64Url(file) {
+                                let fr = new FileReader()
                                 return new Promise(resolve=>{
-                                    xhr.onload = function() {
-                                    let reader = new FileReader();
-                                    reader.onloadend = function() {
-                                        resolve(reader.result);
-                                    }
-                                    reader.readAsDataURL(xhr.response);
-                                    };
-                                    xhr.open('GET', url);
-                                    xhr.responseType = 'blob';
-                                    xhr.send();
+                                    fr.addEventListener("load", function () {
+                                        resolve(fr.result)
+                                    }, false);
+                                    fr.readAsDataURL(file)
                                 })
                             }
                             let derf = 'https://cdn.discordapp.com/avatars/'
@@ -148,6 +162,7 @@
                                 $('#w_gid').text(currData.guild_id)
                                 $('#w_av').text(currData.avatar)
                                 $('#w_pav').attr('href',`${derf}/${currData.id}/${currData.avatar}`)
+                                $('#w_avI').attr('src',`${derf}/${currData.id}/${currData.avatar}`)
                                 $('#extra2').css({overflow:'hidden','max-height':'100%',opacity:1})
                             }
                             function hide () {
@@ -191,6 +206,12 @@
                                     )
                                 }
 
+                            })
+                            $('#avatar').on('change', ()=>{
+                                let inp = $('#avatar').get(0)
+                                if (inp.files.length > 0) {
+                                    $('.file-name').text(inp.files[0].name)
+                                }
                             })
                             $('#delete').click((e)=>{
 
@@ -247,10 +268,10 @@
                             $('#mod').click(async e=>{
 
                                 if (!hasValid) return $('#help').text('The provided webhook is invalid.');
+                                // $('#w_avI').attr('src',$('#avatar').val())
                                 let d = {
                                     name: $('#name').val() || currData.name,
-                                    avatar: await toDataURL($('#avatar').val()) || currData.avatar
-
+                                    avatar: await getBase64Url($('#avatar').get(0).files[0]) || currData.avatar
                                 }
                                 $.ajax({
 
@@ -262,11 +283,12 @@
                                     success: suc=>{
                                         $('#help').text('Successfully modified!');
                                         currData = suc
+                                        // console.log(d.avatar)
                                         show()
                                         
                                     },
                                     error:e=>{
-                                        $('#help').text(`Something wen\'t wrong while trying to modify ( ${e.responseJSON._misc} )`);
+                                        $('#help').text(`Something wen\'t wrong while trying to modify ( ${e.responseText} )`);
                                         console.log(e)
                                         console.log('SENT:',d)
                                     }

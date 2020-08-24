@@ -10,31 +10,31 @@
                     Pozm#4351 ~ 690944032355909662
                     Pozm#6946 ~ 288062966803333120
             -->
-        <div class="bg"></div>
+        <!-- <div class="bg"></div> -->
 
 
         <!--     <div class="topBar"></div> -->
 
         <div class="bounder">
             <%- include("nav.ejs") -%> 
-            <div class='welcomingBox'>
-
-
-                <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center; position: relative">Welcome</h1>
-                <% if (!data) {%>
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;">You can
-                    <a href='/login'>login</a> or <a href="/signup">signup</a> </h2>
-                <% } else {%>
-
-                <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;">
-                    <%= data.username  %>! </h2>
-
-                <% } %>
-
-            </div>
-
-
-            <div class="main">
+            
+            
+            <div class="main" style="background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
+                <div class='welcomingBox' style="background: none;">
+    
+    
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center; position: relative">Welcome</h1>
+                    <% if (!data) {%>
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;">You can
+                        <a href='/login'>login</a> or <a href="/signup">signup</a> </h2>
+                    <% } else {%>
+    
+                    <h2 class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center; position: relative;">
+                        <%= data.username  %>! </h2>
+    
+                    <% } %>
+    
+                </div>
 
                 <h1 class="title is-1" style="color: rgb(204, 204, 204); text-align: center;">So what is this website?</h1>
 

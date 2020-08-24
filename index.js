@@ -320,7 +320,7 @@ app.get('/api/logout', (req,res) => {
 
 app.post('/api/LogintoAccount', (req,res) => {
     
-    req.session.cool = true
+    // req.session.cool = true
     let {username,password} = req.body
     if (!password) return res.status(400).send(JSON.stringify({error:19,message:'Missing credentials'}))
     if (!username) return res.status(400).send(JSON.stringify({error:19,message:'Missing credentials'}))
@@ -358,7 +358,7 @@ app.post('/api/CreateAccount', async (req,res) => {
 
     if (!email.match(/.{0,64}[@](\w{0,255}[.])\w{0,10}/)) return res.status(400).send(JSON.stringify({'error':3,message:'bad email'}))
     if (username.match(/(.{30,}|[^A-Za-z\d])/)) return res.status(400).send(JSON.stringify({'error':4,message:'bad username'}))
-    if (!password.match(/^[\x00-\x7F]{8,32}$/i)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid'}))
+    if (!password.match(/^[\x00-\x7F]{8,32}$/i)) return res.status(400).send(JSON.stringify({'error':7,message:'password is invalid (bad)'}))
     con.query('select * from `whitelist`.`account` where username = ? or email = ?', [username,email], async (err , resu) => {
 
         if (err) throw err
