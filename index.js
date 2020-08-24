@@ -31,7 +31,7 @@ let con = mysql.createConnection({
 
 con.connect(function(err) {
     if (err) throw err;
-    // console.log("Connected!");
+    console.log("Connected! (My sql) ");
 });
 
 const app = express()
