@@ -12,7 +12,7 @@
     
                 </div>
 
-                <section class="container is-fullhd" style="/* justify-self: center; *//* justify-content: center; *//* justify-items: center; */">
+                <section class="container is-widescreen is-clipped" style>
                     <div class="box" style="background-color:rgb(29, 29, 29);/* margin: 1 0; */margin-top: auto;margin-bottom: auto;">
 
 
@@ -22,7 +22,14 @@
 
                             <label class="label" style="color: rgb(202, 202, 202);">URL</label>
                             <div class="control">
-                                <input class="input" type="url" placeholder="Webhook URL" id="URL">
+                                <div class="field">
+                                    <div class="control has-icons-left has-icons-right">
+                                      <input class="input" type="url" placeholder="Webhook URL" id="URL">
+                                      <span class="icon is-small is-left">
+                                        <i class="fas fa-link"></i>
+                                      </span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- extra // send data -->
@@ -65,7 +72,7 @@
                             </div>
 
                             <!-- extra2 // view data -->
-                                <div class="column" id="extra2" style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden; display: flex;">
+                                <div class="column" id="extra2" style="max-height: 0%;opacity:0;transition: all 2s; margin-bottom:0px;margin-top:0px;overflow: hidden; display: flex;flex-flow: wrap;">
                                     <div style="display: flex; flex-flow: column;">
                                         <div style="display: flex;">
                                             <label class="label" style="margin-right: 1rem;">Name: </label>
@@ -236,14 +243,14 @@
                                 })
 
                             })
-                            $('#send').click(e=>{
+                            $('#send').click(async e=>{
 
                                 if (!hasValid) return $('#help').text('The provided webhook is invalid.');
                                 let d = {
 
                                     content: $('#content').val() || 'hi',
                                     username: $('#name').val() || currData.name,
-                                    avatar_url:$('#avatar').val() || currData.avatar
+                                    avatar_url:await getBase64Url($('#avatar').get(0).files[0]) || currData.avatar
 
                                 }
                                 $.ajax({
