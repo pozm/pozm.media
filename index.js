@@ -79,6 +79,11 @@ app.use(session({
 })
  */
 
+app.use((req,res,next)=>{
+    app.locals.URL = req.url == '/' ? '' : req.url
+    next();
+})
+
 const scriptsMetaData = JSON.parse(fs.readFileSync('p-Scripts/meta.json'))
 const SynapseFixes = JSON.parse(fs.readFileSync('Utility/SyanpseFixes.json'))
 
@@ -214,8 +219,9 @@ app.get('/admin', async (req,res) => {
     if (!data) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
     if (data.powerId < 5) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
     let tables = await AsyncQuery(false,'select * from `whitelist`.`account`')
+    let gays = await AsyncQuery(false,'select * from `is-gay`.`gay`')
     
-    res.render('admin',{data : data ? data : false, reg : tables})
+    res.render('admin',{data : data ? data : false, reg : tables,isgays:gays})
 })
 app.get('/SSG', async (req,res) => {
     
@@ -308,6 +314,18 @@ app.delete('/admin/AccountDelete', async (req,res) => {
     if (data2.powerId >= data.powerId) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
     // console.log(id)
     await AsyncQuery(id,'delete from `whitelist`.`account` where id = ?',id)
+    return res.json({message:'Successfully deleted'})
+})
+app.delete('/admin/GayDelete', async (req,res) => {
+
+
+    let data = await getDataFromId(req.session.logedInto ?? '')
+    if (!data) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    if (data.powerId < 5 ) return res.status(401).sendFile(path.join(__dirname, 'html/errors/401.html'))
+    let {id} = req.body
+    if (!id) return res.sendStatus(400)
+    // console.log(id)
+    await AsyncQuery(id,'delete from `is-gay`.`gay` where id = ?',id)
     return res.json({message:'Successfully deleted'})
 })
 
@@ -471,7 +489,7 @@ app.post('/api/createGay', async (req,res)=>{
     let test = user.match(/\S/gi) ?? ['']
     if (user.match(/(pozm|p0zm|p()zm|nukebot|brad|br@d)/gi) || user.match(/[^!-~ ]/gm) || test.join('') == 'pozm' || user.match(/(p.*?(o|0|()).*?z.*?m)/gmi) || user.match(/(b.*?r.*?(a|@).*?d)/gmi)) return res.status(400).json({error:101,message:'includes banned words'})
     let id = uuidv4()
-    let resu = await AsyncQuery(id,'insert into \`is-gay\`.\`gay\` (\`user\`,\`id\`,\`by\`,\`reason\`) values (?, ?, ?, ?)', [user,id,data.username,reason])
+    await AsyncQuery(id,'insert into \`is-gay\`.\`gay\` (\`user\`,\`id\`,\`by\`,\`reason\`) values (?, ?, ?, ?)', [user,id,data.username,reason])
     res.redirect('/IsGay/'+id)
 })
 app.get('/IsGay', async (req,res) => {

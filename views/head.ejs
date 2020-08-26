@@ -4,11 +4,11 @@
     <link rel="stylesheet" type="text/css" href="/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <meta property="og:site_name" content="Pozm.Media">
+    <meta property="og:site_name" content="Pozm">
     <meta property="og:url" content="https://Pozm.media">
-    <meta property="og:title" content="Pozm">
+    <meta property="og:title" content="Pozm <%= locals.URL.replace('/','-> ') %> " id = "titleEmbed">
     <% if (!locals.emb) {%> 
-        <meta property="og:description" content="Pozm's website. Used for getting scripts / authentication of users.">
+        <meta property="og:description" content="Pozm's website.">
         <meta name="theme-color" content="#9f41ad">
         <meta name="og:image" itemprop="image" content="/media/Images/black.png">
 
@@ -21,11 +21,13 @@
     <% } %> 
     <meta property="og:type" content="website">
 
+    <title>Pozm <%= locals.URL.replace('/','-> ') %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="/jqf.js"></script>
     <script src="https://kit.fontawesome.com/d2a3ba29e1.js" crossorigin="anonymous"></script>
     <% if (locals.rc) { %>
         <script src="https://www.google.com/recaptcha/api.js"></script>
-    <% } %>  
+    <% } %> 
+    <!-- <script>let t = $('#titleEmbed');let href= window.location.href; t.attr('content',t.attr('content')+` - ${href.slice(href.lastIndexOf('/')+1)}` ); </script>  -->
 </head>
