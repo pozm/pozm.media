@@ -342,7 +342,7 @@ scrollbar-width: none;  /* Firefox */
 
 .Left-Box {
 
-    flex: 0 0 400px;
+    flex: 0 1 400px;
     margin-left: 1vw;
     border-radius: 7px;
     display: flex;
@@ -352,7 +352,8 @@ scrollbar-width: none;  /* Firefox */
 }
 .Left-BoxC {
 
-    flex: 0 0 400px;
+    flex: 0 1 400px;
+    width: 400px;
     background-color: rgb(25, 27, 29);
     margin-left: 1vw;
     border-radius: 7px;
@@ -371,6 +372,16 @@ scrollbar-width: none;  /* Firefox */
 
 }
 
+.smallUntilHover{
+    max-width: 10%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.smallUntilHover:hover{
+    max-width: none;
+
+}
 
 hr {
 

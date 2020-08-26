@@ -20,16 +20,52 @@
 
             <div class="main" style="background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
 
-                <div class = 'box welcomingBox loginBox' style="padding: 8vh 2vw;align-self: center;">
+                <div class = 'welcomingBox' style="padding: 8vh 2vw;align-self: center; background:none">
 
 
                     <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Sign up now!</h1>
                     <div style="margin-top: 20px;">
                         <form action="/api/CreateAccount" id ='mf' method="POST" style="position: relative; display: grid;">
                         
-                            <input type="email" id='e' class="input tb no-outline sutb" name="email" placeholder="Email">
-                            <input type="text" id='un' class="input tb no-outline sutb" name="username" placeholder="Username">
-                            <input type="password" id='pw' class="input tb no-outline sutb" name="password" placeholder="Password">
+                            <div class="field">
+                                <label class="label">Email</label>
+                                <div class="control has-icons-left has-icons-right">
+                                  <input type="email" id='e' class="input" name="email" placeholder="Email">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-envelope"></i>
+                                  </span>
+                                  <span class="icon is-small is-right">
+                                    <i class="fas" id = "emailRight"></i>
+                                  </span>
+                                </div>
+                                <p class="help" id = "emailHelp"></p>
+                            </div>
+                            <div class="field">
+                                <label class="label">Username</label>
+                                <div class="control has-icons-left has-icons-right">
+                                  <input type="email" id='un' class="input" name="username" placeholder="Username">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-user"></i>
+                                  </span>
+                                  <span class="icon is-small is-right">
+                                    <i class="fas" id = "usernameRight"></i>
+                                  </span>
+                                </div>
+                                <p class="help" id = "usernameHelp"></p>
+                            </div>
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control has-icons-left has-icons-right">
+                                  <input type="password" id='pw' class="input" name="password" placeholder="Password">
+                                  <span class="icon is-small is-left">
+                                    <i class="fas fa-key"></i>
+                                  </span>
+                                  <span class="icon is-small is-right">
+                                    <i class="fas" id="passwordRight"></i>
+                                  </span>
+                                </div>
+                                <p class="help"id = 'passwordHelp'></p>
+                            </div>
                             <input type="button" class="g-recaptcha button" 
                                 data-sitekey="6Lcd1bUZAAAAAJ3tKGWNkuNcu5DePcRm9460MN-R"
                                 data-action='submit'

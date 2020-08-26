@@ -13,24 +13,24 @@
                 Pozm#4351 ~ 690944032355909662
                 Pozm#6946 ~ 288062966803333120
         -->
-        <div class="bg"></div>
+        <div class="bounder">
 
+            <%- include("nav.ejs") -%> 
 
-        <%- include("nav.ejs") -%> 
+            <div class="main" style="background: linear-gradient(171deg, rgba(171, 189, 255, 0.05) 0%, rgb(252, 70, 107) 100%);">
 
-
-        <div class = 'box welcomingBox loginBox'>
-
-
-            <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Is gay generator</h1>
-            <div style="margin-top: 20px;">
-                <form action="/api/createGay" method="post" style="position: relative; display: grid;">
-                
-                    <input type="text" id='un' class="input tb no-outline sutb" name="user" placeholder="The user">
-                    <input type="text" id='pw' class="input tb no-outline sutb" name="reason" placeholder="The reason" value="They are gay">
-                    <input type="submit" id='sub' class="button" value="Okay!">
-                </form>
-                <a href="/isGay/log">Want to view what others have done?</a>
+                <div class="welcomingBox" style="flex-flow: column; background:none">
+                    <h1 class="title is-1" style="color: rgb(228, 228, 228);text-align: center;">Is gay generator</h1>
+                    <div style="margin-top: 20px;">
+                        <form action="/api/createGay" method="post" style="position: relative; display: grid;">
+                        
+                            <input type="text" id='un' class="input tb no-outline sutb" name="user" placeholder="The user">
+                            <input type="text" id='pw' class="input tb no-outline sutb" name="reason" placeholder="The reason" value="They are gay">
+                            <input type="submit" id='sub' class="button" value="Okay!">
+                        </form>
+                        <a href="/isGay/log">Want to view what others have done?</a>
+                    </div>
+                </div>
             </div>
 
         </div>
