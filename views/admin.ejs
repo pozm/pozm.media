@@ -56,14 +56,14 @@
 
                     <div class="Left-Box">
 
-                        <div class="Left-BoxC" style="margin-left: 0px; width: 400px;padding: 1.5rem;max-height: 60vh;overflow-y: auto;">
+                        <div class="Left-BoxC" style="margin-left: 0px;padding: 1.5rem;max-height: 57vh;overflow-y: auto;">
 
                             <aside class="menu">
 
                                 <p class="menu-label">
                                     Users
                                 </p>
-                                <ul class="menu-list" >
+                                <ul class="menu-list" id='UsersList' >
                                     <li><a href="#Users" class="is-active">Current users in DB</a>
                                     
                                         <ul id='m_USERS'>
@@ -71,6 +71,22 @@
 
                                                 <% let user = reg[useri] %> 
                                                 <li><a href="#<%= user.username %>"><%= user.username %> </a></li>
+                                            <% } %> 
+                                        </ul>
+                                    
+                                    </li>
+                                </ul>
+                                <p class="menu-label">
+                                    Is gays
+                                </p>
+                                <ul class="menu-list" id='GayList' >
+                                    <li><a href="#gays">Is gays</a>
+                                    
+                                        <ul id='m_Gays'>
+                                            <% for (let gayi of Object.keys(isgays)) { %>
+
+                                                <% let gay = isgays[gayi] %> 
+                                                <li><a href="#<%= gay.id %>" style="text-overflow: ellipsis;" ><%= gay.user %> - <%= gay.reason %> </a></li>
                                             <% } %> 
                                         </ul>
                                     
@@ -109,9 +125,36 @@
                                 <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Subscriptions</h1>
                                 <p style="word-break: break-all;"><%= user.subscriptions %> </p>
                                 <% if (data.powerId > user.powerId) { %> 
+                                    <hr class="light">
                                     <button class="button is-danger" onclick="Delete(this.id)" id="d_<%= user.id %>">Delete account</button>
                                     <button class="button is-primary"onclick="PowerChange(this.id)"id="pc_<%= user.id %>">Change Power</button>
                                 <% } %> 
+                            </div>
+
+                        <% } %> 
+
+                        <h2 id='gays' class="subtitle is-3" style="color: rgb(202, 202, 202); text-align: center;">Created is Gays</h2>
+                        <hr class="thick">
+
+                        <% for (let gayi of Object.keys(isgays)) { %>
+
+                            <% let gay = isgays[gayi] %> 
+                            <div class="box odd-even" style="margin-left: auto;margin-right: auto;margin-bottom: 1.5rem" id="<%- gay.id %>">
+
+                                <h1 class="subtitle is-2" style="color: rgb(228, 228, 228)"> <%= gay.id %> </h1>
+                                <hr class="light">
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">user</h1>
+                                <p ><%= gay.user %> </p>
+                                <h1 class="subtitle is-3 " style="color: rgb(228, 228, 228)">reason</h1>
+                                <p style="word-break: break-all;"><%= gay.reason %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">by</h1>
+                                <p style="word-break: break-all;"><%= gay.by %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">Created at</h1>
+                                <p style="word-break: break-all;"><%= gay.at %> </p>
+                                <h1 class="subtitle is-3" style="color: rgb(228, 228, 228)">link</h1>
+                                <a style="word-break: break-all;" href="/IsGay/<%= gay.id %>">www.pozm.media/IsGay/<%= gay.id %></a>
+                                <hr class="light">
+                                <button class="button is-danger" onclick="DeleteGay(this.id)" id="d_<%= gay.id %>" style>Delete account</button>
                             </div>
 
                         <% } %> 
@@ -184,6 +227,25 @@
                     }
 
                 }
+                function DeleteGay(e) { // delete account
+
+                    console.log(e)
+
+                    let element = $(`#${e}`)
+                    if (confirm(`Are you sure you want to delete id ${e.split('_')[1]} (${element.parent().children()[0].textContent})`)) {
+
+                        $.ajax({
+
+                            method:'delete',
+                            url:'/admin/GayDelete',
+                            data: {id : e.split('_')[1]},
+                            success: ()=> {window.location.reload()}
+                            
+                        })
+
+                    }
+
+                }
 
                 // scrolling shit
 
@@ -197,22 +259,8 @@
 
                 let hrf= window.location.href
                 let shrf = hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0]
-
+                console.log(shrf)
                 $('#Currently-Viewing').text(shrf)
-
-                $('body').scroll(()=>{
-
-
-                    for (let v of things) {
-                        let hrf= window.location.href
-                        let shrf = hrf.slice(hrf.lastIndexOf('/'))
-                        console.log(hrf.lastIndexOf('#')+1)
-                        $('#Currently-Viewing').text(hrf.lastIndexOf('#')+1 != 0 ?hrf.slice(hrf.lastIndexOf('#')+1) : things[0])
-                        if (checkVisible($(`#${v}`).get()[0]) && shrf != '/SSG#'+v) window.location.href= '#'+v
-
-                    }
-
-                })
 
             </script>
         </div>
