@@ -469,3 +469,38 @@ ol {
     }
 
 }
+.CircleMask {
+    clip-path: circle(50% at 50% 50%);
+}
+.CircleMask > img {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.hbar {
+    margin: 0 30px;
+    background-color: rgb(26, 26, 26);
+    min-width: 4px;
+    height: auto;
+    border-radius: 7px;
+}
+.pcoolbg {
+    color: rgb(235, 235, 235);
+    word-break: break-word;
+    margin-right: 32px;
+    background: #f0f8ff2e;
+    border-radius: 6px;
+    padding: 0 10px;
+}
+.avatarParent {
+    display: flex;
+    flex-flow: wrap;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.AvatarText {
+    font-size: large;
+    justify-content: center;
+}
