@@ -9,6 +9,11 @@ const session = require('express-session')
 const crypto = require('crypto');
 const multer = require('multer');
 const got = require('got');
+const canvas = require('canvas');
+
+// canvas.registerFont('calibri.ttf', {family:'Calibri'})
+
+
 var MySQLStore = require('express-mysql-session')(session);
 
 
@@ -500,6 +505,26 @@ app.get('/IsGay', async (req,res) => {
     return res.render('makeIsGay',{data : data ? data : false})
 
 })
+
+app.get('/ip.png', async (req,res) =>{
+
+    let tx = `Your ip is ${req.ip.slice(0,-3)+'***'}`
+
+    canvs = canvas.createCanvas(200,25)
+    let ctx = canvs.getContext('2d')
+    ctx.font = '20pt Calibri';
+    ctx.fillStyle = 'rgb(255,255,255)'
+    let text = ctx.measureText(tx)
+    console.log(text.width)
+    canvs.width = text.width
+    ctx.font = '20pt Calibri';
+    ctx.fillStyle = 'rgb(255,255,255)'
+    ctx.fillText(tx, 0, 20)
+
+    canvs.createPNGStream().pipe(res)
+
+})
+
 //404 catching
 
 app.get('*', (req, res) => {
